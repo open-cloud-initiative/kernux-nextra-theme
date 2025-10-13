@@ -6,7 +6,7 @@ import { defineConfig } from "tsdown";
 export default defineConfig({
   name: "kernux-nextra-theme",
   entry: ["src/index.ts", "src/withMarkdownWebBook.ts"],
-  format: "esm",
+  format: ["cjs", "esm"],
   dts: true,
   sourcemap: true,
   external: [
