@@ -1,0 +1,9 @@
+:root {
+    --semantic-borderradius-none: var(--core-size-static-0);
+    --semantic-borderradius-3xs: var(--core-size-static-2);
+    --semantic-borderradius-2xs: var(--core-size-static-4);
+    --semantic-borderradius-xs: var(--core-size-static-8);
+    --semantic-borderradius-sm: var(--core-size-static-12);
+    --semantic-borderradius-md: var(--core-size-static-16);
+    --semantic-borderradius-round: 999px;
+}

@@ -1,0 +1,29 @@
+/* Bund Theme - Light Mode */
+:root {
+  --kern-color-action-default: oklch(0.3684 0.0915 253.69);
+  --kern-color-action-state-indicator-shade-hover: oklch(0.5 0.0915 253.69);
+  --kern-typography-font-family-default: "Bundes Sans", sans-serif;
+
+  --kern-metric-border-radius-large: 0px;
+  --kern-metric-border-radius-medium: 0px;
+  --kern-metric-border-radius-small: 0px;
+  --kern-metric-border-radius-default: 0px;
+
+  --footer-color-background: oklch(0.3684 0.0915 253.69);
+  --footer-color-foreground: white;
+}
+
+/* Bund Theme - Dark Mode */
+[data-theme="dark"] {
+  --kern-color-action-default: oklch(0.7 0.0915 253.69);
+  --kern-color-action-state-indicator-shade-hover: oklch(0.9 0.0915 253.69);
+  --kern-typography-font-family-default: "Bundes Sans", sans-serif;
+
+  --kern-metric-border-radius-large: 0px;
+  --kern-metric-border-radius-medium: 0px;
+  --kern-metric-border-radius-small: 0px;
+  --kern-metric-border-radius-default: 0px;
+
+  --footer-color-background: oklch(0.25 0.0915 253.69);
+  --footer-color-foreground: white;
+}

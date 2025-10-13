@@ -1,0 +1,23 @@
+:root {
+    --ratio: 1.13;
+    --semantic-font-size-5xl: calc(var(--semantic-font-size-4xl) * var(--ratio));
+    --semantic-font-size-4xl: calc(var(--semantic-font-size-3xl) * var(--ratio));
+    --semantic-font-size-3xl: calc(var(--semantic-font-size-2xl) * var(--ratio));
+    --semantic-font-size-2xl: calc(var(--semantic-font-size-xl) * var(--ratio));
+    --semantic-font-size-xl: calc(var(--semantic-font-size-lg) * var(--ratio));
+    --semantic-font-size-lg: calc(var(--semantic-font-size-md) * var(--ratio));
+    --semantic-font-size-md: calc(var(--semantic-font-size-sm) * var(--ratio));
+    --semantic-font-size-sm: calc(var(--semantic-font-size-base) * var(--ratio));
+    --semantic-font-size-base: 1rem;
+    --semantic-font-size-xs: calc(var(--semantic-font-size-base) / var(--ratio));
+
+    --semantic-font-line-height-dense: 125%;
+    --semantic-font-line-height-default: 150%;
+    --semantic-font-line-height-relaxed: 175%;
+}
+
+@media (width>=1200px) {
+    :root {
+        --ratio:1.2
+    }
+}

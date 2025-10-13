@@ -1,0 +1,138 @@
+/**
+ * Bundes-Sans Font Family
+ * Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
+ * SPDX-License-Identifier: MIT
+ */
+
+/* Bundes-Sans Light */
+@font-face {
+  font-family: 'Bundes Sans';
+  src: url('./bundes-sans/BundesSans-Web-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bundes Sans';
+  src: url('./bundes-sans/BundesSans-Web-LightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Bundes-Sans Regular */
+@font-face {
+  font-family: 'Bundes Sans';
+  src: url('./bundes-sans/BundesSans-Web-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bundes Sans';
+  src: url('./bundes-sans/BundesSans-Web-RegularItalic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Bundes-Sans Medium */
+@font-face {
+  font-family: 'Bundes Sans';
+  src: url('./bundes-sans/BundesSans-Web-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bundes Sans';
+  src: url('./bundes-sans/BundesSans-Web-MediumItalic.woff') format('woff');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Bundes-Sans Bold */
+@font-face {
+  font-family: 'Bundes Sans';
+  src: url('./bundes-sans/BundesSans-Web-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bundes Sans';
+  src: url('./bundes-sans/BundesSans-Web-BoldItalic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Bundes-Sans Black */
+@font-face {
+  font-family: 'Bundes Sans';
+  src: url('./bundes-sans/BundesSans-Web-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bundes Sans';
+  src: url('./bundes-sans/BundesSans-Web-BlackItalic.woff') format('woff');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Bundes Serif Office Font Family */
+@font-face {
+  font-family: 'Bundes Serif Office';
+  src: url('./bundes-sans/BundesSerifOffice-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bundes Serif Office';
+  src: url('./bundes-sans/BundesSerifOffice-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bundes Serif Office';
+  src: url('./bundes-sans/BundesSerifOffice-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bundes Serif Office';
+  src: url('./bundes-sans/BundesSerifOffice-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* CSS Custom Properties for easy font usage */
+:root {
+  --font-bundes-sans: 'Bundes Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-bundes-serif: 'Bundes Serif Office', Georgia, 'Times New Roman', serif;
+}
+
+/* Utility classes for easy application */
+.font-bundes-sans {
+  font-family: var(--font-bundes-sans);
+}
+
+.font-bundes-serif {
+  font-family: var(--font-bundes-serif);
+}

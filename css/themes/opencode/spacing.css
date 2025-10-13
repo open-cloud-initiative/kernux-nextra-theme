@@ -1,0 +1,41 @@
+:root {
+    --core-size-static-0: 0;
+    --core-size-static-2: 2px;
+    --core-size-static-4: 4px;
+    --core-size-static-8: 8px;
+    --core-size-static-12: 12px;
+    --core-size-static-14: 14px;
+    --core-size-static-16: 16px;
+    --core-size-static-18: 18px;
+    --core-size-static-20: 20px;
+    --core-size-static-22: 22px;
+    --core-size-static-24: 24px;
+    --core-size-static-28: 28px;
+    --core-size-static-32: 32px;
+    --core-size-static-36: 36px;
+    --core-size-static-40: 40px;
+    --core-size-static-48: 48px;
+    --core-size-static-64: 64px;
+    --core-size-static-80: 80px;
+    --core-size-static-96: 96px;
+    --core-size-static-128: 128px;
+    --core-size-static-160: 160px;
+    --core-size-static-192: 192px;
+    --core-size-static-240: 240px;
+
+    --semantic-space-none: var(--core-size-static-0);
+    --semantic-space-3xs: var(--core-size-static-2);
+    --semantic-space-2xs: var(--core-size-static-4);
+    --semantic-space-xs: var(--core-size-static-8);
+    --semantic-space-sm: var(--core-size-static-12);
+    --semantic-space-md: var(--core-size-static-16);
+    --semantic-space-lg: var(--core-size-static-20);
+    --semantic-space-xl: var(--core-size-static-24);
+    --semantic-space-2xl: var(--core-size-static-32);
+    --semantic-space-3xl: var(--core-size-static-48);
+    --semantic-space-4xl: var(--core-size-static-64);
+    --semantic-space-5xl: var(--core-size-static-80);
+    --semantic-space-6xl: var(--core-size-static-96);
+    --semantic-space-7xl: var(--core-size-static-128);
+    --semantic-space-8xl: var(--core-size-static-160);
+}

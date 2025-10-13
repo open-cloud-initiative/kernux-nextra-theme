@@ -1,0 +1,114 @@
+# Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
+# SPDX-License-Identifier: MIT
+
+---
+- - :permit
+  - MIT
+  - :who: Sebastian Kawelke
+    :why: Compatible, permissive license, OSI approved, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-01-24 17:14:24.630490000 Z
+- - :permit
+  - New BSD
+  - :who: Sebastian Kawelke
+    :why: Compatible, permissive license, OSI approved, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses),
+      SPDX License Identifier BSD-3-Clause
+    :versions: []
+    :when: 2025-01-24 17:18:46.011938000 Z
+- - :permit
+  - Apache 2.0
+  - :who: Sebastian Kawelke
+    :why: Compatible, permissive license, OSI approved, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-01-24 17:20:33.051453000 Z
+- - :permit
+  - Simplified BSD
+  - :who: Sebastian Kawelke
+    :why: Compatible, permissive license, OSI approved, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses),
+      SPDX License Identifier BSD-2-Clause
+    :versions: []
+    :when: 2025-01-24 17:22:01.445749000 Z
+- - :permit
+  - Mozilla Public License 2.0
+  - :who: Sebastian Kawelke
+    :why: Compatible, OSI approved, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-01-24 17:22:48.495344000 Z
+- - :permit
+  - ISC
+  - :who: Sebastian Kawelke
+    :why: Compatible, OSI approved, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-02-03 15:50:23.921924000 Z
+- - :permit
+  - EUPL-1.2
+  - :who: Sebastian Kawelke
+    :why: Compatible, OSI approved, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-02-03 15:50:23.921924000 Z
+- - :permit
+  - BlueOak-1.0.0
+  - :who: Sebastian Kawelke
+    :why: Compatible, OSI approved, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-02-03 15:50:23.921924000 Z
+- - :permit
+  - CC0 1.0 Universal
+  - :who: Sebastian Kawelke
+    :why: Compatible, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-02-03 15:50:23.921924000 Z
+- - :permit
+  - CC-BY-4.0
+  - :who: Sebastian Kawelke
+    :why: Compatible, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-02-03 15:50:23.921924000 Z
+- - :permit
+  - MITClause
+  - :who: Sebastian Kawelke
+    :why: Compatible, permissive license, OSI approved, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-01-24 17:14:24.630490000 Z
+- - :permit
+  - The Unlicense
+  - :who: Sebastian Kawelke
+    :why: Compatible, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-01-24 17:14:24.630490000 Z
+- - :approve
+  - xmldom-sre
+  - :who: Sebastian Kawelke
+    :why: MIT License
+    :versions: []
+    :when: 2025-02-03 16:21:10.130682000 Z
+- - :permit
+  - LGPL-3.0-or-later
+  - :who: Sebastian Kawelke
+    :why: Compatible, allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-01-24 17:14:24.630490000 Z
+- - :permit
+  - BSD Zero Clause License
+  - :who: Sebastian Kawelke
+    :why: Note from OSI "Despite its name, Zero-Clause BSD is an alteration of the ISC license, and is not textually derived from licenses in the BSD family.", allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-01-24 17:14:24.630490000 Z
+- - :permit
+  - Python-2.0
+  - :who: Sebastian Kawelke
+    :why: allowed on opencode (https://opencode.de/en/knowledge/general-conditions/standardised-open-source-licenses)
+    :versions: []
+    :when: 2025-01-24 17:14:24.630490000 Z
+- - :approve
+  - "@csstools/color-helpers"
+  - :who:
+    :why:
+    :versions: []
+    :when: 2025-05-09 09:42:41.346946000 Z
+- - :approve
+  - jsonify
+  - :who:
+    :why:
+    :versions: []
+    :when: 2025-05-09 09:42:58.299338000 Z

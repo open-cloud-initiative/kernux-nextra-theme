@@ -1,0 +1,225 @@
+/*++++++++++++++++++++++++++++*/
+/* openCode Theme Definitions */
+/*++++++++++++++++++++++++++++*/
+@import './opencode/colors.css';
+@import './opencode/spacing.css';
+@import './opencode/typography.css';
+@import './opencode/misc.css';
+
+:root {
+
+    /*++++++++++++++++++++++++++++++*/
+    /* Overwrites of Kern Variables */
+    /*++++++++++++++++++++++++++++++*/
+
+    --kern-typography-font-family-default: "Open Sans", sans-serif;
+
+    --kern-typography-font-size-static-medium: var(--semantic-font-size-sm);
+    /* Used for paragraph */
+    --kern-typography-font-size-adaptive-medium: var(--semantic-font-size-sm);
+    /* Used for H4 */
+    --kern-typography-font-size-adaptive-large: var(--semantic-font-size-lg);
+    /* Used for H3 */
+    --kern-typography-font-size-adaptive-x-large: var(--semantic-font-size-3xl);
+    /* Used for H2 */
+    --kern-typography-font-size-adaptive-2x-large: var(--semantic-font-size-4xl);
+    /* Used for H1 */
+
+    --kern-typography-font-weight-medium: 700;
+    --kern-typography-font-weight-semi-bold: 700;
+
+    --kern-typography-line-height-static-medium: var(--semantic-font-line-height-default);
+    --kern-typography-line-height-adaptive-2x-large: var(--semantic-font-line-height-dense);
+    --kern-typography-line-height-adaptive-x-large: var(--semantic-font-line-height-dense);
+    --kern-typography-line-height-adaptive-large: var(--semantic-font-line-height-dense);
+
+    --kern-color-layout-background-hued: var(--core-color-brand-50);
+    --kern-color-form-input-background: var(--core-color-neutral-50);
+
+    --kern-metric-border-radius-large: var(--semantic-borderradius-md);
+    --kern-metric-border-radius-medium: var(--semantic-borderradius-sm);
+    --kern-metric-border-radius-small: var(--semantic-borderradius-xs);
+    --kern-metric-border-radius-default: var(--semantic-borderradius-2xs);
+
+    --kern-color-feedback-info: var(--core-color-brand-700);
+    --kern-metric-border-width-default: 1px;
+    --kern-color-feedback-info-background: var(--core-color-brand-50);
+
+    --kern-color-feedback-warning: var(--semantic-color-fg-static-warning);
+    --kern-color-feedback-warning-background: var(--core-color-brand-50);
+
+    --kern-color-feedback-danger: var(--semantic-color-fg-static-danger);
+    --kern-color-feedback-danger-background: var(--core-color-brand-50);
+
+    --kern-color-action-default: var(--core-color-brand-700);
+    --kern-color-action-state-indicator-shade-hover: var(--core-color-brand-600);
+
+    --kern-metric-border-width-bold: 1px;
+
+    --footer-color-background: var(--core-color-neutral-100);
+}
+
+[data-theme="dark"] {
+    --kern-typography-font-family-default: "Open Sans", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-space-grotesk) !important;
+}
+
+a[data-sidebar="menu-button"] {
+    background-color: var(--core-color-brand-50);
+}
+
+a[data-sidebar="menu-button"]:hover {
+    color: var(--core-color-brand-700) !important;
+}
+
+a[data-sidebar="menu-button"]>span[data-active="true"] {
+    color: var(--core-color-brand-700) !important;
+}
+
+button[data-sidebar="menu-button"] {
+    background-color: var(--core-color-brand-50);
+}
+
+button[data-sidebar="menu-button"]:hover {
+    color: var(--core-color-brand-700) !important;
+}
+
+.kern-btn--primary[disabled] {
+    background-color: var(--kern-color-action-default) !important;
+    cursor: not-allowed !important;
+}
+
+.kern-form-input__input {
+    border-bottom: none !important;
+    border: 1px solid var(--core-color-neutral-200) !important;
+    border-radius: var(--semantic-borderradius-2xs) !important;
+    font-size: var(--semantic-font-size-base) !important;
+}
+
+span[id="nav-to-opencode"] {
+    display: inline !important;
+    color: var(--core-color-brand-700);
+    font-weight: 600;
+}
+
+a[id="nav-to-opencode"] {
+    border: 2px solid var(--core-color-brand-700) !important;
+    border-radius: var(--semantic-borderradius-2xs) !important;
+    font-size: var(--semantic-font-size-base) !important;
+}
+
+a[id="nav-to-opencode"]>div[id="nav-to-opencode"] {
+    padding: calc(var(--spacing) * 2);
+    padding-inline: calc(var(--spacing) * 4);
+    gap: calc(var(--spacing) * 2);
+}
+
+div>nav>div>span {
+    font-family: var(--font-space-grotesk) !important;
+}
+
+nav[id="toc"]>div>div>div>ul>li>a {
+    text-decoration: none !important;
+    color: var(--core-color-neutral-900) !important;
+    font-size: var(--semantic-font-size-base) !important;
+}
+
+@layer utilities {
+    nav>div>div>div>ul>li>a.\!pl-2 {
+        padding-left: 0px !important;
+    }
+
+    nav>div>div>div>ul>li>a.\!pl-4 {
+        padding-left: 0px !important;
+    }
+
+    nav>div>div>div>ul>li>a.\!pl-6 {
+        padding-left: 0px !important;
+    }
+
+    nav>div>div>div>ul>li>a.\!pl-8 {
+        padding-left: 0px !important;
+    }
+}
+
+nav>div>div>div>ul>li>a[data-active="true"] {
+    color: var(--core-color-brand-700) !important;
+}
+
+.kern-alert__body {
+    background-color: var(--core-color-brand-50);
+    padding: 0px var(--semantic-space-2xl) var(--semantic-space-xl) var(--semantic-space-2xl);
+    border-radius: 3px;
+}
+
+.kern-alert__header {
+    padding: var(--semantic-space-xl) var(--semantic-space-xl) var(--semantic-space-md) var(--semantic-space-xl);
+}
+
+.kern-form-input__input:hover {
+    padding: 0px 0px 0px 16px;
+}
+
+footer {
+    color: var(--kern-color-layout-text-default);
+}
+
+footer .kern-link {
+    font-size: var(--semantic-font-size-base) !important;
+}
+
+.kern-card--small .kern-card__container {
+    padding: var(--semantic-space-lg);
+}
+
+.kern-card {
+    border-radius: var(--kern-metric-border-radius-default, 4px) !important;
+    background: var(--core-color-neutral-50);
+}
+
+.kern-card__media {
+    padding: var(--semantic-space-lg);
+}
+
+.kern-card__media img {
+    border-radius: var(--kern-metric-border-radius-default, 4px) !important;
+}
+
+#toc-inner {
+    background-color: var(--core-color-brand-50);
+    border-radius: var(--semantic-borderradius-xs);
+    padding: var(--semantic-space-lg);
+}
+
+#sidebar {
+    align-self: flex-start;
+    height: auto;
+    margin-top: var(--kern-metric-space-x-large);
+    margin-left: var(--semantic-space-2xl);
+    background-color: var(--core-color-brand-100);
+    border-radius: var(--semantic-borderradius-sm);
+    border: 1px solid var(--core-color-neutral-200);
+
+}
+
+#primary-menu-title {
+    padding-bottom: var(--semantic-space-xs);
+    padding-left: var(--semantic-space-xs);
+}
+
+#sidebar button,
+#sidebar a {
+    background-color: var(--core-color-brand-100) !important;
+}
+
+svg[id="chevrondown-menu"] {
+    stroke: var(--kern-color-action-default);
+}

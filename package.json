@@ -1,0 +1,98 @@
+{
+    "name": "@open-cloud-initiative/kernux-nextra-theme",
+    "version": "1.0.0",
+    "description": "A Kern UX based Nextra theme for documentation sites.",
+    "repository": "https://github.com/open-cloud-initiative/kernux-nextra-theme",
+    "author": "Sebastian Döll (@katallaxie)",
+    "license": "MIT",
+    "exports": {
+        "./style.css": "./dist/style.css",
+        "./bund.css": "./dist/bund.css",
+        "./opencode.css": "./dist/opencode.css",
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.mts"
+        },
+        "./withMarkdownWebBook": {
+            "import": "./dist/withMarkdownWebBook.js",
+            "types": "./dist/withMarkdownWebBook.d.mts"
+        }
+    },
+    "types": "./dist/index.d.mts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsup && npm run build:tailwind",
+        "build:tailwind": "npx concurrently \"npx postcss css/styles.css -o dist/style.css --verbose\" \"npx postcss css/themes/bund.css -o dist/bund.css --verbose\" \"npx postcss css/themes/opencode.css -o dist/opencode.css --verbose\"",
+        "clean": "rimraf ./dist ./style.css",
+        "dev": "npx concurrently \"npm run dev:layout\" \"npm run dev:tailwind\"",
+        "dev:layout": "tsup --watch",
+        "dev:tailwind": "TAILWIND_MODE=watch npx concurrently \"npx postcss css/styles.css -o dist/style.css --watch\" \"npx postcss css/themes/bund.css -o dist/bund.css --watch\" \"npx postcss css/themes/opencode.css -o dist/opencode.css --watch\"",
+        "type-check": "tsc --noEmit",
+        "types": "tsup --dts-only",
+        "types:check": "tsc --noEmit"
+    },
+    "peerDependencies": {
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "cmdk": "^1.1.1",
+        "flexsearch": "^0.7.43",
+        "lodash": "^4.17.21",
+        "lucide-react": "^0.525.0",
+        "next": "^15.0.0",
+        "nextra": "^4.6.0",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "recharts": "^3.1.0",
+        "sonner": "^2.0.6",
+        "tailwind-merge": "^3.3.1"
+    },
+    "dependencies": {
+        "@open-cloud-initiative/kernux-react": "^1.0.0",
+        "@headlessui/react": "^2.1.10",
+        "@kern-ux/native": "^2.2.0",
+        "@mdx-js/mdx": "^3.1.1",
+        "@mdxeditor/editor": "^3.46.0",
+        "@radix-ui/react-collapsible": "^1.1.11",
+        "@radix-ui/react-dialog": "^1.1.14",
+        "@radix-ui/react-navigation-menu": "^1.2.13",
+        "@radix-ui/react-popover": "^1.1.14",
+        "@radix-ui/react-separator": "^1.1.7",
+        "@radix-ui/react-slot": "^1.2.3",
+        "@radix-ui/react-tabs": "^1.1.13",
+        "@radix-ui/react-tooltip": "^1.2.7",
+        "@types/jszip": "^3.4.0",
+        "dotenv": "^17.2.0",
+        "escape-string-regexp": "^5.0.0",
+        "isomorphic-dompurify": "^2.26.0",
+        "js-yaml": "^4.1.0",
+        "jszip": "^3.10.1",
+        "openid-client": "^6.8.0",
+        "react-hook-form": "^7.60.0",
+        "react-markdown": "^10.1.0",
+        "react-medium-image-zoom": "^5.3.0",
+        "react-resizable": "^3.0.5",
+        "react-shiki": "0.8.0",
+        "unist-util-visit": "^5.0.0",
+        "zod": "^3.22.3"
+    },
+    "devDependencies": {
+        "@tailwindcss/postcss": "^4.1.11",
+        "@types/jest": "^29.5.14",
+        "@types/js-yaml": "^4.0.9",
+        "@types/jszip": "^3.4.1",
+        "@types/lodash": "^4.17.20",
+        "@types/react": "^18.2.23",
+        "@types/react-resizable": "^3.0.8",
+        "autoprefixer": "^10.4.21",
+        "postcss": "^8.5.6",
+        "postcss-cli": "^11.0.0",
+        "postcss-import": "^16.0.0",
+        "tailwindcss": "^4.1.11",
+        "tsup": "^8.4.0",
+        "tw-animate-css": "^1.3.5",
+        "typescript": "^5.6.3"
+    },
+    "sideEffects": false
+}

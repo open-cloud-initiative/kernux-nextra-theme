@@ -1,0 +1,259 @@
+/**
+ * Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
+ * SPDX-License-Identifier: MIT
+ */
+
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@import '@kern-ux/native/dist/kern.min.css';
+@import './fira-sans.css';
+@import './bundes-sans.css';
+@import './open-sans.css';
+@import './space-grotesk.css';
+@import './shadcn.css';
+@import 'react-medium-image-zoom/dist/styles.css';
+@import './archrl.css';
+
+@config "../tailwind.config.js";
+
+/* Safelist utilities using @source inline() */
+
+/* Kern colors with variants - comprehensive coverage */
+/* Layout and semantic colors */
+@source inline("{hover:,focus:,}bg-kern-{layout-text,layout-text-muted,layout-text-inverse,layout-border,layout-background-default,layout-background-hued,form-inputs-background,form-inputs-background-inverted}");
+@source inline("{hover:,focus:,}text-kern-{layout-text,layout-text-muted,layout-text-inverse,layout-border,layout-background-default,layout-background-hued,form-inputs-background,form-inputs-background-inverted}");
+@source inline("{hover:,focus:,}border-kern-{layout-text,layout-text-muted,layout-text-inverse,layout-border,layout-background-default,layout-background-hued,form-inputs-background,form-inputs-background-inverted}");
+
+/* Action colors */
+@source inline("{hover:,focus:,}bg-kern-{action-default,action-on-default,action-visited,action-focus-background,action-focus-border-inside,action-focus-border-outside}");
+@source inline("{hover:,focus:,}text-kern-{action-default,action-on-default,action-visited,action-focus-background,action-focus-border-inside,action-focus-border-outside}");
+@source inline("{hover:,focus:,}border-kern-{action-default,action-on-default,action-visited,action-focus-background,action-focus-border-inside,action-focus-border-outside}");
+
+/* Feedback colors */
+@source inline("{hover:,focus:,}bg-kern-{feedback-success,feedback-success-background,feedback-info,feedback-info-background,feedback-danger,feedback-danger-background,feedback-warning,feedback-warning-background,feedback-loader,feedback-loader-background}");
+@source inline("{hover:,focus:,}text-kern-{feedback-success,feedback-success-background,feedback-info,feedback-info-background,feedback-danger,feedback-danger-background,feedback-warning,feedback-warning-background,feedback-loader,feedback-loader-background}");
+@source inline("{hover:,focus:,}border-kern-{feedback-success,feedback-success-background,feedback-info,feedback-info-background,feedback-danger,feedback-danger-background,feedback-warning,feedback-warning-background,feedback-loader,feedback-loader-background}");
+
+/* Full color scale palettes - all 11 palettes with all shades */
+@source inline("{hover:,focus:,}bg-kern-{darkblue,lightblue,turquoise,green,limette,yellow,orange,red,violet,neutral,gray}-{025,050,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950}");
+@source inline("{hover:,focus:,}text-kern-{darkblue,lightblue,turquoise,green,limette,yellow,orange,red,violet,neutral,gray}-{025,050,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950}");
+@source inline("{hover:,focus:,}border-kern-{darkblue,lightblue,turquoise,green,limette,yellow,orange,red,violet,neutral,gray}-{025,050,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950}");
+@source inline("{hover:,focus:,}ring-kern-{darkblue,lightblue,turquoise,green,limette,yellow,orange,red,violet,neutral,gray}-{025,050,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950}");
+@source inline("{hover:,focus:,}fill-kern-{darkblue,lightblue,turquoise,green,limette,yellow,orange,red,violet,neutral,gray}-{025,050,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950}");
+@source inline("{hover:,focus:,}stroke-kern-{darkblue,lightblue,turquoise,green,limette,yellow,orange,red,violet,neutral,gray}-{025,050,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950}");
+
+/* Text sizes with responsive variants */
+@source inline("{xs:,sm:,md:,lg:,xl:,}text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl,6xl}");
+@source inline("{xs:,sm:,md:,lg:,xl:,}!text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl,6xl}");
+
+/* Spacing utilities - using common ranges */
+@source inline("gap-{0,1,2,3,4,5,6,8,10,12,16,20,24,32,40,48,56,64}");
+@source inline("{p,m}{x,y,t,b,l,r,}-{0,1,2,3,4,5,6,8,10,12,16,20,24,32,40,48,56,64}");
+@source inline("!{p,m}{x,y,t,b,l,r,}-{0,1,2,3,4,5,6,8,10,12,16,20,24,32,40,48,56,64}");
+
+/* Animation utilities with data attributes */
+@source inline("animate-{pulse,ping,bounce,spin,none}");
+@source inline("fade-{in,out,in-0,in-50,in-100,out-0,out-50,out-100}");
+@source inline("zoom-{in,out,in-50,in-95,in-100,out-0,out-50,out-95}");
+@source inline("slide-{in,out}-{from,to}-{top,bottom,left,right}-{0,1,2,3,4,5}");
+@source inline("data-[state=closed]:{animate,fade,zoom,slide}-{pulse,ping,bounce,spin,in,out,in-0,in-50,in-95,in-100,out-0,out-50,out-95}");
+@source inline("data-[side={bottom,left,right,top}]:{animate,fade,zoom,slide}-{pulse,ping,bounce,spin,in,out,in-0,in-50,in-95,in-100,out-0,out-50,out-95}");
+
+/**
+Theming
+*/
+@layer base {
+  :root {
+    --footer-color-background: var(--kern-color-layout-background-hued);
+    --footer-color-foreground: var(--kern-color-layout-text-default);
+    --core-color-neutral-50: #f9fafb;
+  }
+}
+
+html {
+  @apply antialiased;
+  font-feature-settings:
+    'rlig' 1,
+    'calt' 1,
+    'ss01' 1;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* adding `:not` with `:has` otherwise page jumps while focusing or while tapping in input https://github.com/shuding/nextra/issues/2840 */
+html:not(:has(*:focus)) {
+  @apply scroll-pt-(--nextra-navbar-height);
+}
+
+body {
+  @apply w-full text-base;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+@media (min-width: 768px) {
+
+  .nextra-toc>.div,
+  .nextra-sidebar-container {
+    mask-image: linear-gradient(to bottom, transparent, #000 20px),
+      linear-gradient(to left, #000 10px, transparent 10px);
+  }
+}
+
+.contains-task-list {
+  @apply ml-0 list-none;
+
+  input[type='checkbox'] {
+    @apply mr-1;
+  }
+}
+
+.nextra-sidebar-container {
+  [data-toggle-animation='show'] button {
+    opacity: 0;
+    animation: nextra-fadein 1s ease 0.2s forwards;
+  }
+
+  [data-toggle-animation='hide'] button {
+    opacity: 0;
+    animation: nextra-fadein2 1s ease 0.2s forwards;
+  }
+}
+
+.footnotes a[data-footnote-backref] {
+  font-family: initial;
+}
+
+@keyframes nextra-fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes nextra-fadein2 {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+
+[id="footnote-label"] {
+  display: none;
+}
+
+section.footnotes {
+  @apply my-xl border-t border-border
+}
+
+.container {
+  @apply px-md lg:px-xl;
+  width: 100%;
+  max-width: 100%;
+  margin: var(--center-container, "");
+}
+
+.content-wrapper {
+  @apply px-lg lg:px-0;
+  width: 100%;
+  margin: var(--center-container, "");
+}
+
+.content-wrapper main {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.github-light {
+  background-color: var(--kern-color-layout-background-hued) !important;
+}
+
+
+/**
+Code blocks
+*/
+pre code span {
+  color: var(--shiki-light)
+}
+
+[data-kern-theme='dark'] pre code span {
+  color: var(--shiki-dark);
+}
+
+pre code>span {
+  counter-increment: line;
+
+}
+
+pre code>span::before {
+  /* add a line number */
+  position: relative;
+  content: counter(line);
+  opacity: 0.5;
+  right: 5px;
+}
+
+p>code,
+ul>code,
+li>code,
+strong>code {
+  padding: 0.1em 0.3em;
+  border-radius: 0.2em;
+  background-color: var(--kern-color-layout-background-hued);
+  font-size: 0.9em;
+}
+
+p>a {
+  display: inline !important;
+}
+
+p>strong>a {
+  display: inline !important;
+  font-weight: bolder !important;
+}
+
+pre {
+  white-space: pre-wrap;
+  max-width: 100%;
+  height: auto;
+}
+
+.kern-kopfzeile__label {
+  font-size: 16px;
+}
+
+.kern-kopfzeile__flagge {
+  width: 24px;
+  height: 20px;
+}
+
+@import "@mdxeditor/editor/style.css";
+
+[contentEditable="true"] {
+    outline: none!important;
+    box-shadow: none!important;
+}
+
+.mdxeditor-diff-source-wrapper {
+    font-size: 14px;
+    @apply font-mono;
+}
+
+.mdxeditor .cm-sourceView .cm-line, .cm-gutterElement {
+    font-size: 14px!important;
+    @apply font-mono;
+    > span {
+        font-size: 14px!important;
+        @apply font-mono;
+    }
+}

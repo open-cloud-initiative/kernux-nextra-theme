@@ -1,0 +1,31 @@
+/**
+ * Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
+ * SPDX-License-Identifier: MIT
+ */
+
+/**
+This matches "Architekturrichtlinien" styles.
+*/
+
+main>h5:nth-child(3) {
+    @apply bg-hellgrau-20 dark:bg-dunkelgrau-100;
+    padding: .25rem;
+    margin-bottom: 0px!important;
+}
+
+main>h4:nth-child(4) {
+    @apply bg-hellgrau-40 dark:bg-dunkelgrau-80;
+    padding: .25rem;
+    margin-bottom: 0px!important;
+    margin-top: 0px!important;
+    position: relative;
+    bottom: 11px;
+}
+
+main>h6:nth-child(5) {
+    @apply bg-hellgrau-20 dark:bg-dunkelgrau-100 mb-xl;
+    padding: .25rem;
+    margin-top: 0px!important;
+    position: relative;
+    bottom: 18px;
+}
