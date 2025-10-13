@@ -1,6 +1,6 @@
 {
   "name": "@open-cloud-initiative/kernux-nextra-theme",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Kern UX based Nextra theme for documentation sites.",
   "repository": "https://github.com/open-cloud-initiative/kernux-nextra-theme",
   "author": "Sebastian Döll (@katallaxie)",
