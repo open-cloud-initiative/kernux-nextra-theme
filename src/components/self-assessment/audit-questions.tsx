@@ -1,13 +1,13 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { Answers, QuestionFS } from "@/types/selfAssessment";
-import clsx from "clsx";
-import { useMemo, useState } from "react";
-import { FormProvider, UseFormReturn } from "react-hook-form";
-import Markdown from "react-markdown";
+import {Answers, QuestionFS} from '@/types/selfAssessment'
+import clsx from 'clsx'
+import {useMemo, useState} from 'react'
+import {FormProvider, UseFormReturn} from 'react-hook-form'
+import Markdown from 'react-markdown'
 
-import { Button, H3, P } from "@open-cloud-initiative/kernux-react";
+import {Button, H3, P} from '@open-cloud-initiative/kernux-react'
 import {
   Sidebar,
   SidebarContent,
@@ -16,22 +16,18 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from "../ui/sidebar";
-import { QuestionGroup } from "./elements/question-group";
+} from '../ui/sidebar'
+import {QuestionGroup} from './elements/question-group'
 
 interface SAAuditQuestionsProps {
-  questionFs: QuestionFS;
-  form: UseFormReturn<Answers, any, Answers>;
-  setActiveStepIndex: (index: number) => void;
+  questionFs: QuestionFS
+  form: UseFormReturn<Answers, any, Answers>
+  setActiveStepIndex: (index: number) => void
 }
 
-export default function SelfAssessmentAuditQuestions({
-  form,
-  setActiveStepIndex,
-  questionFs,
-}: SAAuditQuestionsProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const specs = form.watch("specifications", []) as string[];
+export default function SelfAssessmentAuditQuestions({form, setActiveStepIndex, questionFs}: SAAuditQuestionsProps) {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const specs = form.watch('specifications', []) as string[]
   const [realIndex, activeQuestions] = useMemo(() => {
     // get the active questions
     if (specs.length === 0) {
@@ -40,13 +36,13 @@ export default function SelfAssessmentAuditQuestions({
         {
           elements: [],
         },
-      ];
+      ]
     }
 
     // find the active questions and determine the real index inside the questions array
     for (let i = 0; i < questionFs.questions.length; i++) {
       if (specs[activeIndex] === questionFs.questions[i].specId) {
-        return [i, questionFs.questions[i]];
+        return [i, questionFs.questions[i]]
       }
     }
     return [
@@ -54,8 +50,8 @@ export default function SelfAssessmentAuditQuestions({
       {
         elements: [],
       },
-    ];
-  }, [specs, questionFs.questions, activeIndex]);
+    ]
+  }, [specs, questionFs.questions, activeIndex])
 
   // build a spec map
   const specMap = useMemo(() => {
@@ -64,18 +60,18 @@ export default function SelfAssessmentAuditQuestions({
         acc[q.specId] = {
           title: q.specTitle,
           preview: q.specPreview,
-        };
-        return acc;
+        }
+        return acc
       },
       {} as Record<
         string,
         {
-          title: string;
-          preview: string;
+          title: string
+          preview: string
         }
       >,
-    );
-  }, [questionFs.questions]);
+    )
+  }, [questionFs.questions])
 
   return (
     <SidebarProvider className="w-full">
@@ -83,12 +79,11 @@ export default function SelfAssessmentAuditQuestions({
         <Sidebar className="rounded-lg" collapsible="none">
           <SidebarContent className="-m-6 p-2 lg:m-0">
             <SidebarMenu>
-              {form.watch("specifications", [])?.map((q, i) => (
+              {form.watch('specifications', [])?.map((q, i) => (
                 <SidebarMenuItem key={specMap[q].title}>
                   <SidebarMenuButton
                     className={clsx({
-                      "bg-kern-action-state-indicator-tint-active":
-                        i === activeIndex,
+                      'bg-kern-action-state-indicator-tint-active': i === activeIndex,
                     })}
                     onClick={() => setActiveIndex(i)}
                   >
@@ -114,9 +109,7 @@ export default function SelfAssessmentAuditQuestions({
                       {activeQuestions.elements.map((activeQuestion, i) => (
                         <QuestionGroup
                           maxIndex={activeQuestions.elements.length - 1}
-                          path={
-                            "questions[" + realIndex + "].elements[" + i + "]"
-                          }
+                          path={`questions[${realIndex}].elements[${i}]`}
                           index={i}
                           question={activeQuestion}
                           key={activeQuestion.parentQuestion}
@@ -126,22 +119,20 @@ export default function SelfAssessmentAuditQuestions({
                     <div className="mt-8 flex flex-row justify-end">
                       <div>
                         <Button
-                          onClick={(ev) => {
-                            ev.preventDefault();
+                          onClick={ev => {
+                            ev.preventDefault()
                             if (activeIndex === specs.length - 1) {
-                              setActiveStepIndex(4);
-                              return;
+                              setActiveStepIndex(4)
+                              return
                             }
                             // go to the next category
-                            setActiveIndex((prev) => prev + 1);
-                            return;
+                            setActiveIndex(prev => prev + 1)
+                            return
                           }}
-                          variant={"primary"}
+                          variant={'primary'}
                           type="submit"
                         >
-                          {activeIndex === specs.length - 1
-                            ? "Fertigstellen"
-                            : "Zur nächsten Vorgabe"}
+                          {activeIndex === specs.length - 1 ? 'Fertigstellen' : 'Zur nächsten Vorgabe'}
                         </Button>
                       </div>
                     </div>
@@ -150,14 +141,11 @@ export default function SelfAssessmentAuditQuestions({
               ) : (
                 <div>
                   <H3>Sie haben keine Eingrenzung auf Vorgaben vorgenommen</H3>
-                  <P>
-                    Bitte wählen Sie mindestens eine Vorgabe im Schritt
-                    Eingrenzung aus.
-                  </P>
+                  <P>Bitte wählen Sie mindestens eine Vorgabe im Schritt Eingrenzung aus.</P>
                   <div className="mt-8">
                     <Button
                       onClick={() => {
-                        window.location.href = "/self-assessment?step=1";
+                        window.location.href = '/self-assessment?step=1'
                       }}
                       variant="secondary"
                     >
@@ -171,5 +159,5 @@ export default function SelfAssessmentAuditQuestions({
         </SidebarInset>
       </div>
     </SidebarProvider>
-  );
+  )
 }

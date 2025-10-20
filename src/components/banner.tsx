@@ -1,13 +1,13 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { useThemeConfig } from "../contexts";
+import {useThemeConfig} from '../contexts'
 
 export function Banner() {
-  const { banner: Banner } = useThemeConfig();
+  const {banner: Banner} = useThemeConfig()
   if (!Banner) {
-    return null;
+    return null
   }
 
-  return <Banner />;
+  return <Banner />
 }

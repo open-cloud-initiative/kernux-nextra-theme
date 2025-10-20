@@ -1,33 +1,29 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { gitUrlParse } from "./git-url-parse";
+import {gitUrlParse} from './git-url-parse'
 
 export function getGitIssueUrl({
-  repository = "",
+  repository = '',
   title,
   labels,
 }: {
-  repository?: string;
-  title: string;
-  labels?: string;
+  repository?: string
+  title: string
+  labels?: string
 }): string {
-  const repo = gitUrlParse(repository);
-  if (!repo) throw new Error("Invalid `docsRepositoryBase` URL!");
+  const repo = gitUrlParse(repository)
+  if (!repo) throw new Error('Invalid `docsRepositoryBase` URL!')
 
-  if (repo.origin.includes("gitlab")) {
+  if (repo.origin.includes('gitlab')) {
+    return `${repo.origin}/${repo.owner}/${repo.name}/-/issues/new?issue[title]=${encodeURIComponent(title)}${
+      labels ? `&issue[description]=/label${encodeURIComponent(` ~${labels}\n`)}` : ''
+    }`
+  }
+  if (repo.origin.includes('github')) {
     return `${repo.origin}/${repo.owner}/${
       repo.name
-    }/-/issues/new?issue[title]=${encodeURIComponent(title)}${
-      labels
-        ? `&issue[description]=/label${encodeURIComponent(` ~${labels}\n`)}`
-        : ""
-    }`;
+    }/issues/new?title=${encodeURIComponent(title)}&labels=${labels || ''}`
   }
-  if (repo.origin.includes("github")) {
-    return `${repo.origin}/${repo.owner}/${
-      repo.name
-    }/issues/new?title=${encodeURIComponent(title)}&labels=${labels || ""}`;
-  }
-  return "#";
+  return '#'
 }

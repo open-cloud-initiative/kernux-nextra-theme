@@ -1,65 +1,56 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { useRouter } from "next/router";
-import type { FrontMatter, PageOpts } from "nextra";
-import { useFSRoute } from "nextra/hooks";
+import {useRouter} from 'next/router'
+import type {FrontMatter, PageOpts} from 'nextra'
+import {useFSRoute} from 'nextra/hooks'
 
-import type { ReactElement, ReactNode } from "react";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { MenuProvider } from "./menu";
-import { normalizePages } from "./normalizePages";
+import type {ReactElement, ReactNode} from 'react'
+import {createContext, useContext, useEffect, useMemo, useState} from 'react'
+import {MenuProvider} from './menu'
+import {normalizePages} from './normalizePages'
 
 type Config<FrontMatterType = FrontMatter> = Pick<
   PageOpts<FrontMatterType>,
-  "title" | "frontMatter" | "filePath" | "timestamp"
+  'title' | 'frontMatter' | 'filePath' | 'timestamp'
 > & {
-  hideSidebar: boolean;
-  normalizePagesResult: ReturnType<typeof normalizePages>;
-};
+  hideSidebar: boolean
+  normalizePagesResult: ReturnType<typeof normalizePages>
+}
 
 const ConfigContext = createContext<Config>({
-  title: "",
+  title: '',
   frontMatter: {},
-  filePath: "",
+  filePath: '',
   hideSidebar: false,
   normalizePagesResult: {} as ReturnType<typeof normalizePages>,
-});
-ConfigContext.displayName = "Config";
+})
+ConfigContext.displayName = 'Config'
 
 export function useConfig<FrontMatterType = FrontMatter>() {
   // @ts-expect-error TODO: fix Type 'Config<{ [key: string]: any; }>' is not assignable to type 'Config<FrontMatterType>'.
-  return useContext<Config<FrontMatterType>>(ConfigContext);
+  return useContext<Config<FrontMatterType>>(ConfigContext)
 }
 
-export function ConfigProvider({
-  children,
-  value: pageOpts,
-}: {
-  children: ReactNode;
-  value: PageOpts;
-}): ReactElement {
-  const [menu, setMenu] = useState(false);
-  const { asPath } = useRouter();
+export function ConfigProvider({children, value: pageOpts}: {children: ReactNode; value: PageOpts}): ReactElement {
+  const [menu, setMenu] = useState(false)
+  const {asPath} = useRouter()
 
-  const fsPath = useFSRoute();
+  const fsPath = useFSRoute()
 
   const normalizePagesResult = useMemo(
-    () => normalizePages({ list: pageOpts.pageMap, route: fsPath }),
+    () => normalizePages({list: pageOpts.pageMap, route: fsPath}),
     [pageOpts.pageMap, fsPath],
-  );
+  )
 
-  const { activeType, activeThemeContext: themeContext } = normalizePagesResult;
+  const {activeType, activeThemeContext: themeContext} = normalizePagesResult
 
   const extendedConfig: Config = {
-    title: pageOpts.title || pageOpts.frontMatter.title || "No title",
+    title: pageOpts.title || pageOpts.frontMatter.title || 'No title',
     frontMatter: pageOpts.frontMatter,
     filePath: pageOpts.filePath,
     timestamp: pageOpts.timestamp,
-    hideSidebar:
-      !themeContext.sidebar ||
-      themeContext.layout === "raw" ||
-      activeType === "page",
+    hideSidebar: !themeContext.sidebar || themeContext.layout === 'raw' || activeType === 'page',
     // config can be overwritten using frontMatter
     normalizePagesResult: {
       ...normalizePagesResult,
@@ -68,40 +59,40 @@ export function ConfigProvider({
         ...(pageOpts.frontMatter.theme || {}),
       },
     },
-  };
+  }
 
   // Always close mobile nav when route was changed (e.g. logo click)
   useEffect(() => {
-    setMenu(false);
-  }, [asPath]);
+    setMenu(false)
+  }, [asPath])
 
   useEffect(() => {
     // Lock background scroll when menu is opened
-    document.body.classList.toggle("max-md:_overflow-hidden", menu);
-  }, [menu]);
+    document.body.classList.toggle('max-md:_overflow-hidden', menu)
+  }, [menu])
 
   useEffect(() => {
-    let resizeTimer: number;
+    let resizeTimer: number
 
     function addResizingClass() {
-      document.body.classList.add("resizing");
-      clearTimeout(resizeTimer);
+      document.body.classList.add('resizing')
+      clearTimeout(resizeTimer)
       resizeTimer = window.setTimeout(() => {
-        document.body.classList.remove("resizing");
-      }, 200);
+        document.body.classList.remove('resizing')
+      }, 200)
     }
 
-    window.addEventListener("resize", addResizingClass);
+    window.addEventListener('resize', addResizingClass)
     return () => {
-      window.removeEventListener("resize", addResizingClass);
-    };
-  }, []);
+      window.removeEventListener('resize', addResizingClass)
+    }
+  }, [])
 
-  const value = useMemo(() => ({ menu, setMenu }), [menu]);
+  const value = useMemo(() => ({menu, setMenu}), [menu])
 
   return (
     <ConfigContext.Provider value={extendedConfig}>
       <MenuProvider value={value}>{children}</MenuProvider>
     </ConfigContext.Provider>
-  );
+  )
 }

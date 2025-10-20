@@ -1,17 +1,17 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { FunctionComponent } from "react";
-import { cleanHtml } from "../common";
-import { A, H2, P } from "@open-cloud-initiative/kernux-react";
+import {FunctionComponent} from 'react'
+import {cleanHtml} from '../common'
+import {A, H2, P} from '@open-cloud-initiative/kernux-react'
 
 interface Props {
-  href: string;
-  index: number;
-  title: string;
-  description: string;
+  href: string
+  index: number
+  title: string
+  description: string
 }
-export const BigListItem: FunctionComponent<Props> = (props) => {
+export const BigListItem: FunctionComponent<Props> = props => {
   return (
     <div>
       <H2>
@@ -24,5 +24,5 @@ export const BigListItem: FunctionComponent<Props> = (props) => {
       </H2>
       <P>{cleanHtml(props.description)}</P>
     </div>
-  );
-};
+  )
+}

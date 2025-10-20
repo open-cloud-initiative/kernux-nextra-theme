@@ -1,21 +1,21 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { useRouter } from "next/router";
-import { useMounted } from "nextra/hooks";
-import type { ReactElement } from "react";
-import { useThemeConfig } from "../contexts";
-import { getGitIssueUrl, renderComponent } from "../utils";
-import { A } from "@open-cloud-initiative/kernux-react";
+import {useRouter} from 'next/router'
+import {useMounted} from 'nextra/hooks'
+import type {ReactElement} from 'react'
+import {useThemeConfig} from '../contexts'
+import {getGitIssueUrl, renderComponent} from '../utils'
+import {A} from '@open-cloud-initiative/kernux-react'
 
 export function NotFoundPage(): ReactElement | null {
-  const themeConfig = useThemeConfig();
+  const themeConfig = useThemeConfig()
 
-  const mounted = useMounted();
-  const { asPath } = useRouter();
-  const { content, labels } = themeConfig.notFound;
+  const mounted = useMounted()
+  const {asPath} = useRouter()
+  const {content, labels} = themeConfig.notFound
   if (!content) {
-    return null;
+    return null
   }
 
   return (
@@ -23,7 +23,7 @@ export function NotFoundPage(): ReactElement | null {
       <A
         href={getGitIssueUrl({
           repository: themeConfig.docsRepositoryBase,
-          title: `Found broken \`${mounted ? asPath : ""}\` link. Please fix!`,
+          title: `Found broken \`${mounted ? asPath : ''}\` link. Please fix!`,
           labels,
         })}
         newWindow
@@ -32,5 +32,5 @@ export function NotFoundPage(): ReactElement | null {
         {renderComponent(content)}
       </A>
     </p>
-  );
+  )
 }

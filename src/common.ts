@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 export const cleanHtml = (str?: string): string => {
-  return (str || "")
-    ?.replace(/<[^>]*>/g, "") // Remove HTML tags
-    .replace(/&[^;]+;/g, ""); // Remove HTML entities
-};
+  return (str || '')
+    ?.replace(/<[^>]*>/g, '') // Remove HTML tags
+    .replace(/&[^;]+;/g, '') // Remove HTML entities
+}

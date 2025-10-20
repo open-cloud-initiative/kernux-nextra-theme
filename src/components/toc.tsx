@@ -1,73 +1,48 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import type { Heading } from "nextra";
+import type {Heading} from 'nextra'
 
-import { A, H4 } from "@open-cloud-initiative/kernux-react";
-import clsx from "clsx";
-import { useState } from "react";
-import { useActiveHeadline, useThemeConfig } from "..";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "./ui/collapsible";
-import { ChevronDown } from "lucide-react";
-import { cn } from "@/utils";
+import {A, H4} from '@open-cloud-initiative/kernux-react'
+import clsx from 'clsx'
+import {useState} from 'react'
+import {useActiveHeadline, useThemeConfig} from '..'
+import {Collapsible, CollapsibleContent, CollapsibleTrigger} from './ui/collapsible'
+import {ChevronDown} from 'lucide-react'
+import {cn} from '@/utils'
 
 type TOCProps = {
-  toc: Heading[];
-  filePath: string;
-};
+  toc: Heading[]
+  filePath: string
+}
 
 const filterArchrlStyles = (toc: Heading[]): Heading[] => {
   //filter heading if it includes notInToc in the value
-  toc = toc.filter(
-    (heading) =>
-      typeof heading.value === "string" &&
-      !heading.value.includes("[notInToc]"),
-  );
+  toc = toc.filter(heading => typeof heading.value === 'string' && !heading.value.includes('[notInToc]'))
 
   // if we have a h5,h4,h6 combination at the start, remove those
-  if (
-    toc.length >= 3 &&
-    toc[0].depth === 5 &&
-    toc[1].depth === 4 &&
-    toc[2].depth === 6
-  ) {
-    return toc.slice(3);
+  if (toc.length >= 3 && toc[0].depth === 5 && toc[1].depth === 4 && toc[2].depth === 6) {
+    return toc.slice(3)
   }
-  return toc;
-};
+  return toc
+}
 
-export function TOC({ toc }: TOCProps) {
-  const activeHeadline = useActiveHeadline();
-  toc = filterArchrlStyles(toc || []);
-  const [isOpen, setIsOpen] = useState(true);
+export function TOC({toc}: TOCProps) {
+  const activeHeadline = useActiveHeadline()
+  toc = filterArchrlStyles(toc || [])
+  const [isOpen, setIsOpen] = useState(true)
 
-  const config = useThemeConfig();
-  const title = config.toc?.title ?? "Inhaltsverzeichnis";
+  const config = useThemeConfig()
+  const title = config.toc?.title ?? 'Inhaltsverzeichnis'
 
   if (!toc || toc.length === 0) {
-    return null;
+    return null
   }
 
   return (
     <nav className="w-full sm:w-[260px] h-full" id="toc">
-      <div
-        className={cn(
-          "md:sticky",
-          Boolean(config.headerLowerBadgeLogoPath)
-            ? "top-[155px]"
-            : "top-[115px]",
-        )}
-        id="toc-inner"
-      >
-        <Collapsible
-          open={isOpen}
-          onOpenChange={setIsOpen}
-          className="md:!block"
-        >
+      <div className={cn('md:sticky', config.headerLowerBadgeLogoPath ? 'top-[155px]' : 'top-[115px]')} id="toc-inner">
+        <Collapsible open={isOpen} onOpenChange={setIsOpen} className="md:!block">
           <CollapsibleTrigger className="w-full">
             <div id="toc-title" className="flex items-center gap-2">
               {config.toc?.iconEnabled === true && (
@@ -89,33 +64,28 @@ export function TOC({ toc }: TOCProps) {
                 </div>
               )}
               <H4 className="">{title}</H4>
-              <ChevronDown
-                className={clsx(
-                  "ml-auto transition-transform duration-200",
-                  isOpen && "rotate-180",
-                )}
-              />
+              <ChevronDown className={clsx('ml-auto transition-transform duration-200', isOpen && 'rotate-180')} />
             </div>
           </CollapsibleTrigger>
           <CollapsibleContent>
             <ul
               style={{
-                maxHeight: "calc(100vh - 200px)",
-                overflowY: "auto",
+                maxHeight: 'calc(100vh - 200px)',
+                overflowY: 'auto',
               }}
               className="flex flex-col gap-xs mt-4"
             >
-              {toc.map((heading) => (
+              {toc.map(heading => (
                 <li key={heading.id}>
                   <A
                     key={heading.id}
                     className={clsx({
                       block: true,
-                      "!pl-2": heading.depth === 3,
-                      "!pl-4": heading.depth === 4,
-                      "!pl-6": heading.depth === 5,
-                      "!pl-8": heading.depth === 6,
-                      "!decoration-[3px]": activeHeadline === heading.id,
+                      '!pl-2': heading.depth === 3,
+                      '!pl-4': heading.depth === 4,
+                      '!pl-6': heading.depth === 5,
+                      '!pl-8': heading.depth === 6,
+                      '!decoration-[3px]': activeHeadline === heading.id,
                     })}
                     data-active={activeHeadline === heading.id}
                     href={`#${heading.id}`}
@@ -129,5 +99,5 @@ export function TOC({ toc }: TOCProps) {
         </Collapsible>
       </div>
     </nav>
-  );
+  )
 }

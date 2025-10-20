@@ -1,28 +1,28 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { fc, reactNode } from "nextra/schemas";
-import type { FC, PropsWithChildren, ReactNode } from "react";
-import { z } from "zod";
+import {fc, reactNode} from 'nextra/schemas'
+import type {FC, PropsWithChildren, ReactNode} from 'react'
+import {z} from 'zod'
 
-export type KernuxThemeConfig = z.infer<typeof themeSchema>;
-export type PartialDocsThemeConfig = z.infer<typeof publicThemeSchema>;
+export type KernuxThemeConfig = z.infer<typeof themeSchema>
+export type PartialDocsThemeConfig = z.infer<typeof publicThemeSchema>
 
 const i18nSchema = /* @__PURE__ */ (() =>
   z.array(
     z.strictObject({
-      direction: z.enum(["ltr", "rtl"]).optional(),
+      direction: z.enum(['ltr', 'rtl']).optional(),
       locale: z.string(),
       name: z.string(),
     }),
-  ))();
+  ))()
 
 export const themeOptionsSchema = /* @__PURE__ */ (() =>
   z.strictObject({
     light: z.string(),
     dark: z.string(),
     system: z.string(),
-  }))();
+  }))()
 
 export const themeSchema = /* @__PURE__ */ (() =>
   z.strictObject({
@@ -37,9 +37,7 @@ export const themeSchema = /* @__PURE__ */ (() =>
         feedbackServerUrl: z.string(),
       })
       .optional(),
-    layoutComponent: z
-      .custom<(props: PropsWithChildren) => ReactNode>()
-      .optional(),
+    layoutComponent: z.custom<(props: PropsWithChildren) => ReactNode>().optional(),
     docsRepositoryBase: z.string().optional(),
     umbrellaFooter: z.boolean().optional(),
     umbrellaHeader: z.boolean().optional(),
@@ -63,7 +61,7 @@ export const themeSchema = /* @__PURE__ */ (() =>
       })
       .optional(),
     footer: z.strictObject({
-      component: z.custom<ReactNode | FC<{ menu: boolean }>>(...reactNode),
+      component: z.custom<ReactNode | FC<{menu: boolean}>>(...reactNode),
       links: z
         .array(
           z.object({
@@ -94,7 +92,7 @@ export const themeSchema = /* @__PURE__ */ (() =>
       labels: z.string(),
     }),
     search: z.strictObject({
-      component: z.custom<ReactNode | FC<{ className?: string }>>(...reactNode),
+      component: z.custom<ReactNode | FC<{className?: string}>>(...reactNode),
       emptyResult: z.custom<ReactNode | FC>(...reactNode),
       error: z.string().or(z.function().returns(z.string())),
       loading: z.custom<ReactNode | FC>(...reactNode),
@@ -107,10 +105,10 @@ export const themeSchema = /* @__PURE__ */ (() =>
       defaultMenuCollapseLevel: z.number().min(1).int(),
       toggleButton: z.boolean(),
     }),
-  }))();
+  }))()
 
 export const publicThemeSchema = /* @__PURE__ */ (() =>
   themeSchema.deepPartial().extend({
     // to have `locale` and `text` as required properties
     i18n: i18nSchema.optional(),
-  }))();
+  }))()

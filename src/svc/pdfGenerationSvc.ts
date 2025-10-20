@@ -1,18 +1,18 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { Answers, Questionnaire } from "../types/selfAssessment";
-import jszip from "jszip";
-import yaml from "js-yaml";
+import {Answers, Questionnaire} from '../types/selfAssessment'
+import jszip from 'jszip'
+import yaml from 'js-yaml'
 
 /**
  * Converts answer values to German text
  */
 const answerToText = (answer: string | number | number[] | null): string => {
-  if (answer === "yes") return "Ja";
-  if (answer === "no") return "Nein";
-  return "Keine Antwort";
-};
+  if (answer === 'yes') return 'Ja'
+  if (answer === 'no') return 'Nein'
+  return 'Keine Antwort'
+}
 
 /**
  * PDF Generation Service
@@ -22,43 +22,41 @@ export const pdfGenerationSvc = {
   /**
    * Fetches template files from the public folder
    */
-  fetchTemplateFiles: async (
-    baseUrl: string = "/pdf-template",
-  ): Promise<Record<string, Blob>> => {
-    const templateFiles: Record<string, Blob> = {};
+  fetchTemplateFiles: async (baseUrl: string = '/pdf-template'): Promise<Record<string, Blob>> => {
+    const templateFiles: Record<string, Blob> = {}
 
     try {
       // List of template files to fetch
       const filesToFetch = [
-        "template.tex",
-        "assets/background.png",
-        "assets/letzte-seite-qr.png",
-        "assets/fonts/BundesSerifOffice-Regular.ttf",
-        "assets/fonts/BundesSerifOffice-Bold.ttf",
-        "assets/fonts/BundesSerifOffice-Italic.ttf",
-        "assets/fonts/BundesSerifOffice-BoldItalic.ttf",
-      ];
+        'template.tex',
+        'assets/background.png',
+        'assets/letzte-seite-qr.png',
+        'assets/fonts/BundesSerifOffice-Regular.ttf',
+        'assets/fonts/BundesSerifOffice-Bold.ttf',
+        'assets/fonts/BundesSerifOffice-Italic.ttf',
+        'assets/fonts/BundesSerifOffice-BoldItalic.ttf',
+      ]
 
       // Fetch all template files
-      const fetchPromises = filesToFetch.map(async (filePath) => {
+      const fetchPromises = filesToFetch.map(async filePath => {
         try {
-          const response = await fetch(`${baseUrl}/${filePath}`);
+          const response = await fetch(`${baseUrl}/${filePath}`)
           if (response.ok) {
-            const blob = await response.blob();
-            templateFiles[filePath] = blob;
+            const blob = await response.blob()
+            templateFiles[filePath] = blob
           } else {
-            console.warn(`Failed to fetch template file: ${filePath}`);
+            console.warn(`Failed to fetch template file: ${filePath}`)
           }
         } catch (error) {
-          console.warn(`Error fetching template file ${filePath}:`, error);
+          console.warn(`Error fetching template file ${filePath}:`, error)
         }
-      });
+      })
 
-      await Promise.all(fetchPromises);
-      return templateFiles;
+      await Promise.all(fetchPromises)
+      return templateFiles
     } catch (error) {
-      console.warn("Error fetching template files:", error);
-      return {};
+      console.warn('Error fetching template files:', error)
+      return {}
     }
   },
   /**
@@ -69,63 +67,50 @@ export const pdfGenerationSvc = {
 
     answers: Questionnaire,
   ): string => {
-    console.log(answers);
+    console.log(answers)
     const activeSpecs = (values.specifications || [])
-      .map((specId) => {
-        return answers.questions.find((q) => q.specId === specId);
+      .map(specId => {
+        return answers.questions.find(q => q.specId === specId)
       })
-      .filter((e): e is Questionnaire["questions"][number] => Boolean(e));
+      .filter((e): e is Questionnaire['questions'][number] => Boolean(e))
 
     // Calculate statistics
     const totalQuestions = activeSpecs.reduce(
-      (sum, spec) =>
-        sum +
-        (spec?.elements.reduce(
-          (elemSum, elem) => elemSum + elem.subQuestions.length,
-          0,
-        ) || 0),
+      (sum, spec) => sum + (spec?.elements.reduce((elemSum, elem) => elemSum + elem.subQuestions.length, 0) || 0),
       0,
-    );
+    )
 
-    console.log(activeSpecs);
+    console.log(activeSpecs)
 
     const answeredYes = activeSpecs.reduce(
       (sum, spec) =>
         sum +
         (spec?.elements.reduce(
-          (elemSum, elem) =>
-            elemSum +
-            elem.subQuestions.filter((sq) => sq.answer === "yes").length,
+          (elemSum, elem) => elemSum + elem.subQuestions.filter(sq => sq.answer === 'yes').length,
           0,
         ) || 0),
       0,
-    );
+    )
 
     const answeredNo = activeSpecs.reduce(
       (sum, spec) =>
         sum +
         (spec?.elements.reduce(
-          (elemSum, elem) =>
-            elemSum +
-            elem.subQuestions.filter((sq) => sq.answer === "no").length,
+          (elemSum, elem) => elemSum + elem.subQuestions.filter(sq => sq.answer === 'no').length,
           0,
         ) || 0),
       0,
-    );
+    )
 
     const skipped = activeSpecs.reduce(
       (sum, spec) =>
         sum +
         (spec?.elements.reduce(
-          (elemSum, elem) =>
-            elemSum +
-            elem.subQuestions.filter(
-              (sq) => sq.answer === "skipped" || !sq.answer,
-            ).length,
+          (elemSum, elem) => elemSum + elem.subQuestions.filter(sq => sq.answer === 'skipped' || !sq.answer).length,
           0,
         ) || 0),
       0,
-    );
+    )
 
     return `
 
@@ -161,12 +146,12 @@ export const pdfGenerationSvc = {
 
 # Entscheidung im Prüfkontext
 
-${values.examinationContext || "_Keine Angabe_"}
+${values.examinationContext || '_Keine Angabe_'}
 
 
 # Status der Architekturentscheidung
 
-${values.statusArchitecturalDecision || "_Keine Angabe_"}
+${values.statusArchitecturalDecision || '_Keine Angabe_'}
 
 
 # Implikationen
@@ -174,33 +159,26 @@ ${values.statusArchitecturalDecision || "_Keine Angabe_"}
 ${
   activeSpecs.length > 0
     ? activeSpecs
-        .map((spec) => {
-          const standardImplications = [...(spec?.specImplications || [])].map(
-            (q) => q.replace(/^\d+\./, "").trim(),
-          );
+        .map(spec => {
+          const standardImplications = [...(spec?.specImplications || [])].map(q => q.replace(/^\d+\./, '').trim())
 
           // Find the corresponding answer spec to get custom implications
-          const answerSpec = values.questions?.find(
-            (q) => q.specId === spec?.specId,
-          );
-          const customImplications = answerSpec?.customSpecImplications || [];
+          const answerSpec = values.questions?.find(q => q.specId === spec?.specId)
+          const customImplications = answerSpec?.customSpecImplications || []
 
           // Combine standard and custom implications
-          const allImplications = [
-            ...standardImplications,
-            ...customImplications,
-          ];
+          const allImplications = [...standardImplications, ...customImplications]
 
           return `## ${spec?.specTitle}
 
 ${
   allImplications.length > 0
-    ? allImplications.map((impl, i) => `${i + 1}. ${impl}`).join("\n")
-    : "_Keine Implikationen definiert_"
-}`;
+    ? allImplications.map((impl, i) => `${i + 1}. ${impl}`).join('\n')
+    : '_Keine Implikationen definiert_'
+}`
         })
-        .join("\n\n---\n\n")
-    : "_Keine Spezifikationen ausgewählt_"
+        .join('\n\n---\n\n')
+    : '_Keine Spezifikationen ausgewählt_'
 }
 
 # Prüffragen und Antworten
@@ -208,18 +186,18 @@ ${
 ${
   activeSpecs.length > 0
     ? activeSpecs
-        .map((spec) => {
+        .map(spec => {
           return `## ${spec?.specTitle} 
 ${spec.specId}
 
 ${spec.specPreview}
 
 ${spec?.elements
-  .map((q) => {
+  .map(q => {
     return `### ${q.parentQuestion}
 
 ${q.subQuestions
-  .map((sq) => {
+  .map(sq => {
     return `\\begin{tcolorbox}[colback=white,colframe=gray!50!black,title={${sq.question}},fonttitle=\\bfseries\\color{black},sharp corners,toptitle=3mm,bottomtitle=3mm,colbacktitle=gray!10!white]
 
 ${answerToText(sq.answer)}${
@@ -227,17 +205,17 @@ ${answerToText(sq.answer)}${
         ? `
 
 \\textit{${sq.message}}`
-        : ""
+        : ''
     }
 
-\\end{tcolorbox}`;
+\\end{tcolorbox}`
   })
-  .join("\n\n")}`;
+  .join('\n\n')}`
   })
-  .join("\n\n")}`;
+  .join('\n\n')}`
         })
-        .join("\n\n---\n\n")
-    : "_Keine Spezifikationen ausgewählt_"
+        .join('\n\n---\n\n')
+    : '_Keine Spezifikationen ausgewählt_'
 }
 
 
@@ -254,7 +232,7 @@ Diese Architekturentscheidung wurde am **${new Date(values.date).toLocaleDateStr
 
 ---
 
-*Bericht generiert am ${new Date().toLocaleString("de-DE")} durch das Document Writing Tools System*`;
+*Bericht generiert am ${new Date().toLocaleString('de-DE')} durch das Document Writing Tools System*`
   },
 
   /**
@@ -268,51 +246,47 @@ Diese Architekturentscheidung wurde am **${new Date(values.date).toLocaleDateStr
     templateBaseUrl?: string,
   ): Promise<Blob> => {
     try {
-      const markdownContent = pdfGenerationSvc.generateMarkdownContent(
-        values,
-        answers,
-      );
-      const zip = jszip();
+      const markdownContent = pdfGenerationSvc.generateMarkdownContent(values, answers)
+      const zip = jszip()
 
       // Create the folder structure
-      const markdownFolder = zip.folder("markdown");
-      const templateFolder = zip.folder("template");
+      const markdownFolder = zip.folder('markdown')
+      const templateFolder = zip.folder('template')
 
       if (!markdownFolder || !templateFolder) {
-        throw new Error("Failed to create zip folder structure");
+        throw new Error('Failed to create zip folder structure')
       }
 
-      templateFolder.file("metadata.yaml", yaml.dump(metadata));
+      templateFolder.file('metadata.yaml', yaml.dump(metadata))
 
       // Add the markdown content
-      markdownFolder.file("report.md", markdownContent);
+      markdownFolder.file('report.md', markdownContent)
 
       // Fetch and add template files
-      const templateFiles =
-        await pdfGenerationSvc.fetchTemplateFiles(templateBaseUrl);
+      const templateFiles = await pdfGenerationSvc.fetchTemplateFiles(templateBaseUrl)
 
       // Add template files to the template folder
       for (const [filePath, blob] of Object.entries(templateFiles)) {
-        templateFolder.file(filePath, blob);
+        templateFolder.file(filePath, blob)
       }
 
       // If no template files were fetched, add a placeholder
       if (Object.keys(templateFiles).length === 0) {
-        templateFolder.file(".gitkeep", "");
-        console.warn("No template files found, using placeholder");
+        templateFolder.file('.gitkeep', '')
+        console.warn('No template files found, using placeholder')
       }
 
       // Generate the zip file
       const zipBlob = await zip.generateAsync({
-        type: "blob",
-        compression: "DEFLATE",
-        compressionOptions: { level: 6 },
-      });
+        type: 'blob',
+        compression: 'DEFLATE',
+        compressionOptions: {level: 6},
+      })
 
-      return zipBlob;
+      return zipBlob
     } catch (error) {
-      console.error("Zip creation error:", error);
-      throw new Error("Failed to create report zip file");
+      console.error('Zip creation error:', error)
+      throw new Error('Failed to create report zip file')
     }
   },
 
@@ -321,33 +295,31 @@ Diese Architekturentscheidung wurde am **${new Date(values.date).toLocaleDateStr
    */
   uploadZipAndGeneratePDF: async (
     zipBlob: Blob,
-    apiEndpoint: string = "https://dwt-api.dev-l3montree.cloud/pdf",
+    apiEndpoint: string = 'https://dwt-api.dev-l3montree.cloud/pdf',
   ): Promise<Blob> => {
     try {
-      const formData = new FormData();
-      formData.append("file", zipBlob, "self-assessment-report.zip");
+      const formData = new FormData()
+      formData.append('file', zipBlob, 'self-assessment-report.zip')
 
       const response = await fetch(apiEndpoint, {
-        method: "POST",
+        method: 'POST',
         body: formData,
-      });
+      })
 
       if (!response.ok) {
-        const errorText = await response.text().catch(() => "Unknown error");
-        throw new Error(
-          `PDF generation failed (${response.status}): ${errorText}`,
-        );
+        const errorText = await response.text().catch(() => 'Unknown error')
+        throw new Error(`PDF generation failed (${response.status}): ${errorText}`)
       }
 
-      const contentType = response.headers.get("content-type");
-      if (!contentType?.includes("application/pdf")) {
-        console.warn("Response is not a PDF, got:", contentType);
+      const contentType = response.headers.get('content-type')
+      if (!contentType?.includes('application/pdf')) {
+        console.warn('Response is not a PDF, got:', contentType)
       }
 
-      return response.blob();
+      return response.blob()
     } catch (error) {
-      console.error("PDF API upload error:", error);
-      throw error;
+      console.error('PDF API upload error:', error)
+      throw error
     }
   },
 
@@ -366,24 +338,16 @@ Diese Architekturentscheidung wurde am **${new Date(values.date).toLocaleDateStr
         metadata_vars: {
           document_title: values.subject,
           version: values.version,
-          primary_color: "36, 60, 164", // rgb
+          primary_color: '36, 60, 164', // rgb
         },
-      };
+      }
 
-      const zipBlob = await pdfGenerationSvc.createReportZip(
-        values,
-        answers,
-        metadata,
-        templateBaseUrl,
-      );
+      const zipBlob = await pdfGenerationSvc.createReportZip(values, answers, metadata, templateBaseUrl)
 
-      return await pdfGenerationSvc.uploadZipAndGeneratePDF(
-        zipBlob,
-        apiEndpoint,
-      );
+      return await pdfGenerationSvc.uploadZipAndGeneratePDF(zipBlob, apiEndpoint)
     } catch (error) {
-      console.error("PDF generation workflow error:", error);
-      throw error;
+      console.error('PDF generation workflow error:', error)
+      throw error
     }
   },
-};
+}

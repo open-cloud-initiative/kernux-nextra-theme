@@ -1,7 +1,7 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-export const Logo = ({ width, height }: { width: number; height: number }) => {
+export const Logo = ({width, height}: {width: number; height: number}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -36,5 +36,5 @@ export const Logo = ({ width, height }: { width: number; height: number }) => {
       <title>Digitalwappen Bund Länder Kommunen</title>
       <use href="#icon-digitalwappen" />
     </svg>
-  );
-};
+  )
+}

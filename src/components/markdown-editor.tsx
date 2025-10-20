@@ -8,36 +8,32 @@ import {
   MDXEditorMethods,
   quotePlugin,
   thematicBreakPlugin,
-} from "@mdxeditor/editor";
+} from '@mdxeditor/editor'
 
-import clsx from "clsx";
-import { useEffect, useRef } from "react";
+import clsx from 'clsx'
+import {useEffect, useRef} from 'react'
 
 interface MarkdownEditorProps {
-  markdown: string;
-  onChange: (markdown: string) => void;
-  initMarkdown?: string;
+  markdown: string
+  onChange: (markdown: string) => void
+  initMarkdown?: string
 }
 
-const MarkdownEditor = ({
-  markdown,
-  onChange,
-  initMarkdown,
-}: MarkdownEditorProps) => {
-  const ref = useRef<MDXEditorMethods>(null);
+const MarkdownEditor = ({markdown, onChange, initMarkdown}: MarkdownEditorProps) => {
+  const ref = useRef<MDXEditorMethods>(null)
   useEffect(() => {
     if (ref.current && initMarkdown) {
-      ref.current.setMarkdown(initMarkdown);
+      ref.current.setMarkdown(initMarkdown)
     }
-  }, [initMarkdown]);
+  }, [initMarkdown])
   return (
     <MDXEditor
-      className={clsx("prose mdxeditor mdx-editor")}
+      className={clsx('prose mdxeditor mdx-editor')}
       ref={ref}
       plugins={[
         diffSourcePlugin({
-          diffMarkdown: "An older version",
-          viewMode: "source",
+          diffMarkdown: 'An older version',
+          viewMode: 'source',
         }),
         // Example Plugin Usage
         headingsPlugin(),
@@ -51,7 +47,7 @@ const MarkdownEditor = ({
       onChange={onChange}
       contentEditableClassName="mdx-editor-content prose"
     />
-  );
-};
+  )
+}
 
-export default MarkdownEditor;
+export default MarkdownEditor

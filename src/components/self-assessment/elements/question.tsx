@@ -1,29 +1,26 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { useFormContext } from "react-hook-form";
-import {
-  QuestionType,
-  QuestionWithoutAnswer,
-} from "../../../types/selfAssessment";
-import { Textarea, RadioGroup } from "@open-cloud-initiative/kernux-react";
+import {useFormContext} from 'react-hook-form'
+import {QuestionType, QuestionWithoutAnswer} from '../../../types/selfAssessment'
+import {Textarea, RadioGroup} from '@open-cloud-initiative/kernux-react'
 
 interface QuestionProps {
-  question: QuestionWithoutAnswer;
-  path: string;
+  question: QuestionWithoutAnswer
+  path: string
 }
 
-export const QuestionCmp = ({ question: q, path }: QuestionProps) => {
-  const { register, getValues, setValue } = useFormContext();
+export const QuestionCmp = ({question: q, path}: QuestionProps) => {
+  const {register, getValues, setValue} = useFormContext()
 
-  const selectedAnswer = getValues(path + ".answer");
+  const selectedAnswer = getValues(`${path}.answer`)
 
   const radioOptions = [
-    { value: "yes", label: "Ja" },
-    { value: "no", label: "Nein" },
-    { value: "open", label: "Offen" },
-    { value: "skipped", label: "Keine Antwort" },
-  ];
+    {value: 'yes', label: 'Ja'},
+    {value: 'no', label: 'Nein'},
+    {value: 'open', label: 'Offen'},
+    {value: 'skipped', label: 'Keine Antwort'},
+  ]
 
   switch (q.type) {
     case QuestionType.YesNo:
@@ -33,40 +30,31 @@ export const QuestionCmp = ({ question: q, path }: QuestionProps) => {
           <div>
             <RadioGroup
               label={q.question}
-              name={path + ".answer"}
+              name={`${path}.answer`}
               options={radioOptions}
               value={selectedAnswer}
-              onChange={(value) => setValue(path + ".answer", value)}
+              onChange={value => setValue(`${path}.answer`, value)}
             />
 
             <div className="mt-4">
-              {selectedAnswer === "yes" && (
+              {selectedAnswer === 'yes' && (
                 <div className="flex flex-col gap-4">
-                  <Textarea
-                    label="In welcher Form?"
-                    {...register(path + ".message")}
-                  />
+                  <Textarea label="In welcher Form?" {...register(`${path}.message`)} />
                 </div>
               )}
-              {selectedAnswer === "no" && (
+              {selectedAnswer === 'no' && (
                 <div className="flex flex-col gap-4">
-                  <Textarea
-                    label="Wie wird dies begründet?"
-                    {...register(path + ".message")}
-                  />
+                  <Textarea label="Wie wird dies begründet?" {...register(`${path}.message`)} />
                 </div>
               )}
-              {selectedAnswer === "open" && (
+              {selectedAnswer === 'open' && (
                 <div className="flex flex-col gap-4">
-                  <Textarea
-                    label="Welche offenen Punkte bestehen?"
-                    {...register(path + ".message")}
-                  />
+                  <Textarea label="Welche offenen Punkte bestehen?" {...register(`${path}.message`)} />
                 </div>
               )}
             </div>
           </div>
         </>
-      );
+      )
   }
-};
+}

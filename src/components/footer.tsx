@@ -1,36 +1,36 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { useMemo, type ReactElement } from "react";
-import { useConfig, useThemeConfig } from "../contexts";
-import { renderComponent } from "../utils";
-import { A, H4 } from "@open-cloud-initiative/kernux-react";
-import clsx from "clsx";
+import {useMemo, type ReactElement} from 'react'
+import {useConfig, useThemeConfig} from '../contexts'
+import {renderComponent} from '../utils'
+import {A, H4} from '@open-cloud-initiative/kernux-react'
+import clsx from 'clsx'
 
-type Link = { name: string; href: string; column: string };
+type Link = {name: string; href: string; column: string}
 
 function groupLinksByColumn(links: Link[]): Record<string, Link[]> {
-  const groups: Record<string, Link[]> = {};
+  const groups: Record<string, Link[]> = {}
 
   for (const link of links) {
     if (!groups[link.column]) {
-      groups[link.column] = [];
+      groups[link.column] = []
     }
-    groups[link.column].push(link);
+    groups[link.column].push(link)
   }
 
-  return groups;
+  return groups
 }
 
 export function Footer(): ReactElement {
-  const themeConfig = useThemeConfig();
-  const links = themeConfig.footer.links;
-  const linkChunks = groupLinksByColumn(links);
-  const config = useConfig();
-  const { directories } = config.normalizePagesResult;
+  const themeConfig = useThemeConfig()
+  const links = themeConfig.footer.links
+  const linkChunks = groupLinksByColumn(links)
+  const config = useConfig()
+  const {directories} = config.normalizePagesResult
   const displayOnlyInFooter = useMemo(() => {
-    return directories.filter((dir) => dir.displayOnlyInFooter);
-  }, [directories]);
+    return directories.filter(dir => dir.displayOnlyInFooter)
+  }, [directories])
 
   return (
     <footer className="bg-footer text-footer-foreground border-solid border-border border-t print:bg-transparent">
@@ -49,7 +49,7 @@ export function Footer(): ReactElement {
                 <div key={i} className="space-y-4">
                   <H4 className="text-sm font-semibold leading-6">{column}</H4>
                   <ul role="list" className="space-y-4">
-                    {links.map((item) => (
+                    {links.map(item => (
                       <li key={`${item.name}-${i}`}>
                         <A className="!text-footer-foreground" href={item.href}>
                           {item.name}
@@ -65,7 +65,7 @@ export function Footer(): ReactElement {
         {displayOnlyInFooter.length > 0 && (
           <nav className="mt-xl">
             <ul className="flex flex-row flex-wrap gap-md">
-              {displayOnlyInFooter.map((dir) => (
+              {displayOnlyInFooter.map(dir => (
                 <li key={dir.route}>
                   <A className="!text-footer-foreground" href={dir.route}>
                     {dir.title}
@@ -76,11 +76,9 @@ export function Footer(): ReactElement {
           </nav>
         )}
         {themeConfig.footer.copyright && (
-          <div className={clsx("mt-xl pt-8")}>
-            {renderComponent(themeConfig.footer.copyright)}
-          </div>
+          <div className={clsx('mt-xl pt-8')}>{renderComponent(themeConfig.footer.copyright)}</div>
         )}
       </div>
     </footer>
-  );
+  )
 }

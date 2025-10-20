@@ -1,21 +1,18 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import NextHead from "next/head";
-import { useMounted } from "nextra/hooks";
-import type { ReactElement } from "react";
-import { useThemeConfig } from "../contexts";
+import NextHead from 'next/head'
+import {useMounted} from 'nextra/hooks'
+import type {ReactElement} from 'react'
+import {useThemeConfig} from '../contexts'
 
 export function Head(): ReactElement {
-  const mounted = useMounted();
-  const themeConfig = useThemeConfig();
+  const mounted = useMounted()
+  const themeConfig = useThemeConfig()
 
   // `head` can be either FC or ReactNode. We have to directly call it if it's an
   // FC because hooks like Next.js' `useRouter` aren't allowed inside NextHead.
-  const head =
-    typeof themeConfig.head === "function"
-      ? themeConfig.head({})
-      : themeConfig.head;
+  const head = typeof themeConfig.head === 'function' ? themeConfig.head({}) : themeConfig.head
   return (
     <NextHead>
       {themeConfig.faviconGlyph ? (
@@ -28,19 +25,12 @@ export function Head(): ReactElement {
         <meta name="theme-color" content="#fff" />
       ) : (
         <>
-          <meta
-            name="theme-color"
-            content="#fff"
-            media="(prefers-color-scheme: light)"
-          />
+          <meta name="theme-color" content="#fff" media="(prefers-color-scheme: light)" />
         </>
       )}
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-      />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
       <style>{`:root{--nextra-navbar-height:76px;--nextra-menu-height:3.75rem;--nextra-banner-height:2.5rem;}`}</style>
       {head}
     </NextHead>
-  );
+  )
 }

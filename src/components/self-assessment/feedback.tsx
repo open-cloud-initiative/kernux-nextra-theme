@@ -1,37 +1,30 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { Answers, Feedback, QuestionFS } from "@/types/selfAssessment";
-import { UseFormReturn } from "react-hook-form";
+import {Answers, Feedback, QuestionFS} from '@/types/selfAssessment'
+import {UseFormReturn} from 'react-hook-form'
 
-import { Button } from "@open-cloud-initiative/kernux-react";
-import SelfAssessmentDownload from "./download";
+import {Button} from '@open-cloud-initiative/kernux-react'
+import SelfAssessmentDownload from './download'
 
 export interface SelfAssessmentFeedback {
-  form: UseFormReturn<Answers, any, Answers>;
-  feedbackForm: UseFormReturn<Feedback, any, Feedback>;
-  handleDownload: (data: Answers) => void;
-  questionFs: QuestionFS;
+  form: UseFormReturn<Answers, any, Answers>
+  feedbackForm: UseFormReturn<Feedback, any, Feedback>
+  handleDownload: (data: Answers) => void
+  questionFs: QuestionFS
 }
 
-export default function SelfAssessmentFeedback({
-  handleDownload,
-  form,
-  questionFs,
-}: SelfAssessmentFeedback) {
+export default function SelfAssessmentFeedback({handleDownload, form, questionFs}: SelfAssessmentFeedback) {
   return (
     <div className="w-full">
       <div>
         <div className="border rounded-md p-6">
           <p>
-            Nutzen Sie die Button um das Ergebnis das Self-Assessment in einem
-            maschinenlesbaren Format (JSON) oder als PDF-Daten herunterzuladen.
+            Nutzen Sie die Button um das Ergebnis das Self-Assessment in einem maschinenlesbaren Format (JSON) oder als
+            PDF-Daten herunterzuladen.
           </p>
           <div className="flex flex-row gap-2 justify-end mt-2">
-            <Button
-              variant="secondary"
-              onClick={form.handleSubmit(handleDownload)}
-            >
+            <Button variant="secondary" onClick={form.handleSubmit(handleDownload)}>
               Exportieren
             </Button>
             <SelfAssessmentDownload questionFs={questionFs} form={form} />
@@ -209,5 +202,5 @@ export default function SelfAssessmentFeedback({
         </FormProvider>*/}
       </div>
     </div>
-  );
+  )
 }

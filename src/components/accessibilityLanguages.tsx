@@ -1,10 +1,10 @@
 // Copyright 2025 rafaeishikho.
 // SPDX-License-Identifier: Apache-2.0
-import { A } from "@open-cloud-initiative/kernux-react";
+import {A} from '@open-cloud-initiative/kernux-react'
 
 interface AccessibilityLanguagesProps {
-  leichteSpracheHref?: string;
-  gebaerdenspracheHref?: string;
+  leichteSpracheHref?: string
+  gebaerdenspracheHref?: string
 }
 
 export function AccessibilityLanguages(props: AccessibilityLanguagesProps) {
@@ -41,5 +41,5 @@ export function AccessibilityLanguages(props: AccessibilityLanguagesProps) {
         )}
       </div>
     </div>
-  );
+  )
 }

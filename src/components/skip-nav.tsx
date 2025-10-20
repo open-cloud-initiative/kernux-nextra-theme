@@ -28,66 +28,47 @@
  *
  * Source: https://github.com/reach/reach-ui/blob/43f450db7bcb25a743121fe31355f2294065a049/LICENSE
  */
-import cn from "clsx";
-import type { ComponentProps, ReactElement } from "react";
-import { forwardRef } from "react";
+import cn from 'clsx'
+import type {ComponentProps, ReactElement} from 'react'
+import {forwardRef} from 'react'
 
 // TODO: Change the DEFAULTID for `nextra-skip-nav` or something else on the next major version (v3.x). The DEFAULTID must be 'reach-skip-nav' because changing this value is a breaking change for users that use v2.0.1 and earlier
-const DEFAULTID = "reach-skip-nav";
-const DEFAULTLABEL = "Skip to content";
+const DEFAULTID = 'reach-skip-nav'
+const DEFAULTLABEL = 'Skip to content'
 
-type SkipNavLinkProps = Omit<
-  ComponentProps<"a">,
-  "ref" | "href" | "children"
-> & {
-  label?: string;
-  styled?: boolean;
-};
+type SkipNavLinkProps = Omit<ComponentProps<'a'>, 'ref' | 'href' | 'children'> & {
+  label?: string
+  styled?: boolean
+}
 
 export const SkipNavLink = forwardRef<HTMLAnchorElement, SkipNavLinkProps>(
-  (
-    {
-      className: providedClassName,
-      id,
-      label = DEFAULTLABEL,
-      styled,
-      ...props
-    },
-    forwardedRef,
-  ): ReactElement => {
+  ({className: providedClassName, id, label = DEFAULTLABEL, styled, ...props}, forwardedRef): ReactElement => {
     const className =
       providedClassName === undefined // Give the option to the user to pass a falsy other than undefined to remove the default styles
         ? styled // Give the user a way to opt-in the default style provided with the theme. Probably remove this option in the next major version (v3.x) and just do a check to use the providedClassName or the default
           ? cn(
-              "sr-only",
-              "nextra-focus",
-              "focus:not-sr-only focus:fixed focus:z-50 focus:m-3 focus:ml-4 focus:h-[calc(var(--nextra-navbar-height)-1.5rem)] focus:rounded-lg focus:border focus:px-3 focus:py-2 focus:align-middle focus:text-sm focus:font-bold",
-              "focus:text-gray-900 focus:dark:text-gray-100",
-              "focus:bg-white focus:dark:bg-neutral-900",
-              "focus:border-neutral-400 focus:dark:border-neutral-800",
+              'sr-only',
+              'nextra-focus',
+              'focus:not-sr-only focus:fixed focus:z-50 focus:m-3 focus:ml-4 focus:h-[calc(var(--nextra-navbar-height)-1.5rem)] focus:rounded-lg focus:border focus:px-3 focus:py-2 focus:align-middle focus:text-sm focus:font-bold',
+              'focus:text-gray-900 focus:dark:text-gray-100',
+              'focus:bg-white focus:dark:bg-neutral-900',
+              'focus:border-neutral-400 focus:dark:border-neutral-800',
             )
-          : ""
-        : providedClassName;
+          : ''
+        : providedClassName
 
     return (
-      <a
-        {...props}
-        ref={forwardedRef}
-        href={`#${id || DEFAULTID}`}
-        className={className}
-      >
+      <a {...props} ref={forwardedRef} href={`#${id || DEFAULTID}`} className={className}>
         {label}
       </a>
-    );
+    )
   },
-);
-SkipNavLink.displayName = "SkipNavLink";
+)
+SkipNavLink.displayName = 'SkipNavLink'
 
-type SkipNavContentProps = Omit<ComponentProps<"div">, "ref" | "children">;
+type SkipNavContentProps = Omit<ComponentProps<'div'>, 'ref' | 'children'>
 
 export const SkipNavContent = forwardRef<HTMLDivElement, SkipNavContentProps>(
-  ({ id, ...props }, forwardedRef): ReactElement => (
-    <div {...props} ref={forwardedRef} id={id || DEFAULTID} />
-  ),
-);
-SkipNavContent.displayName = "SkipNavContent";
+  ({id, ...props}, forwardedRef): ReactElement => <div {...props} ref={forwardedRef} id={id || DEFAULTID} />,
+)
+SkipNavContent.displayName = 'SkipNavContent'

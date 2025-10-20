@@ -1,62 +1,43 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import clsx from "clsx";
-import { NextraThemeLayoutProps } from "nextra";
-import { MDXProvider } from "nextra/mdx";
-import { ReactElement, ReactNode } from "react";
-import {
-  Banner,
-  Feedback,
-  Head,
-  Navbar,
-  Sidebar,
-  UmbrellaFooter,
-  UmbrellaHeader,
-} from "./components";
-import {
-  SidebarInset,
-  SidebarProvider,
-  useSidebar,
-} from "./components/ui/sidebar";
-import {
-  ConfigProvider,
-  ThemeConfigProvider,
-  useConfig,
-  useThemeConfig,
-} from "./contexts";
-import { HeadingTracker } from "./contexts/active-headline-context";
-import { getComponents } from "./mdx-components";
-import { cn, renderComponent } from "./utils";
-import { Toaster } from "./components/ui/sonner";
-import { TooltipProvider } from "./components/ui/tooltip";
+import clsx from 'clsx'
+import {NextraThemeLayoutProps} from 'nextra'
+import {MDXProvider} from 'nextra/mdx'
+import {ReactElement, ReactNode} from 'react'
+import {Banner, Feedback, Head, Navbar, Sidebar, UmbrellaFooter, UmbrellaHeader} from './components'
+import {SidebarInset, SidebarProvider, useSidebar} from './components/ui/sidebar'
+import {ConfigProvider, ThemeConfigProvider, useConfig, useThemeConfig} from './contexts'
+import {HeadingTracker} from './contexts/active-headline-context'
+import {getComponents} from './mdx-components'
+import {cn, renderComponent} from './utils'
+import {Toaster} from './components/ui/sonner'
+import {TooltipProvider} from './components/ui/tooltip'
 
 function Header() {
-  const config = useConfig();
-  const sidebar = useSidebar();
-  const { topLevelNavbarItems } = config.normalizePagesResult;
+  const config = useConfig()
+  const sidebar = useSidebar()
+  const {topLevelNavbarItems} = config.normalizePagesResult
 
-  return (
-    <Navbar toggleSidebar={sidebar.toggleSidebar} items={topLevelNavbarItems} />
-  );
+  return <Navbar toggleSidebar={sidebar.toggleSidebar} items={topLevelNavbarItems} />
 }
-function InnerLayout({ children }: { children: ReactNode }): ReactElement {
-  const themeConfig = useThemeConfig();
+function InnerLayout({children}: {children: ReactNode}): ReactElement {
+  const themeConfig = useThemeConfig()
 
-  const config = useConfig();
+  const config = useConfig()
 
-  const dir = "ltr";
+  const dir = 'ltr'
 
-  const { activeThemeContext: themeContext } = config.normalizePagesResult;
+  const {activeThemeContext: themeContext} = config.normalizePagesResult
 
   const components = getComponents({
     components: themeConfig.components,
-  });
+  })
 
-  const LayoutComponent = themeConfig.layoutComponent;
+  const LayoutComponent = themeConfig.layoutComponent
 
-  if (themeContext.layout === "empty") {
-    return <div className="w-full">{children}</div>;
+  if (themeContext.layout === 'empty') {
+    return <div className="w-full">{children}</div>
   }
 
   return (
@@ -79,10 +60,10 @@ function InnerLayout({ children }: { children: ReactNode }): ReactElement {
         <SidebarProvider
           style={{
             // @ts-expect-error We are just using this to set CSS variables
-            "--sidebar-width": themeContext.layout === "raw" ? "0rem" : "20rem",
-            "--sidebar-width-mobile": "20rem",
-            ...(themeContext.layout === "raw" && {
-              "--center-container": "auto",
+            '--sidebar-width': themeContext.layout === 'raw' ? '0rem' : '20rem',
+            '--sidebar-width-mobile': '20rem',
+            ...(themeContext.layout === 'raw' && {
+              '--center-container': 'auto',
             }),
           }}
         >
@@ -90,15 +71,8 @@ function InnerLayout({ children }: { children: ReactNode }): ReactElement {
             <UmbrellaHeader />
             <Banner />
             <Header />
-            <div
-              className={cn(
-                "flex min-h-svh flex-row",
-                themeContext.layout !== "raw" && "content-wrapper",
-              )}
-            >
-              <Sidebar
-                docsDirectories={config.normalizePagesResult.docsDirectories}
-              />
+            <div className={cn('flex min-h-svh flex-row', themeContext.layout !== 'raw' && 'content-wrapper')}>
+              <Sidebar docsDirectories={config.normalizePagesResult.docsDirectories} />
 
               <SidebarInset>
                 <HeadingTracker>
@@ -109,8 +83,8 @@ function InnerLayout({ children }: { children: ReactNode }): ReactElement {
                 {themeConfig.feedback && (
                   <div
                     className={clsx({
-                      "lg:pl-xl pb-xl": themeContext.layout !== "raw",
-                      "lg:px-xl pb-xl": themeContext.layout === "raw",
+                      'lg:pl-xl pb-xl': themeContext.layout !== 'raw',
+                      'lg:px-xl pb-xl': themeContext.layout === 'raw',
                     })}
                   >
                     <Feedback {...themeConfig.feedback} />
@@ -128,14 +102,10 @@ function InnerLayout({ children }: { children: ReactNode }): ReactElement {
         </SidebarProvider>
       )}
     </div>
-  );
+  )
 }
 
-export default function Layout({
-  children,
-  themeConfig,
-  pageOpts,
-}: NextraThemeLayoutProps): ReactElement {
+export default function Layout({children, themeConfig, pageOpts}: NextraThemeLayoutProps): ReactElement {
   return (
     <ThemeConfigProvider value={themeConfig}>
       <ConfigProvider value={pageOpts}>
@@ -145,5 +115,5 @@ export default function Layout({
         </InnerLayout>
       </ConfigProvider>
     </ThemeConfigProvider>
-  );
+  )
 }

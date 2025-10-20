@@ -1,13 +1,11 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { gitUrlParse } from "./git-url-parse";
+import {gitUrlParse} from './git-url-parse'
 
-describe("gitUrlParse", () => {
-  it("should work", () => {
-    const result = gitUrlParse(
-      "https://github.com/B2o5T/graphql-eslint/tree/master/website",
-    );
+describe('gitUrlParse', () => {
+  it('should work', () => {
+    const result = gitUrlParse('https://github.com/B2o5T/graphql-eslint/tree/master/website')
     expect(result).toMatchInlineSnapshot(
       `
       {
@@ -17,6 +15,6 @@ describe("gitUrlParse", () => {
         "owner": "B2o5T",
       }
     `,
-    );
-  });
-});
+    )
+  })
+})

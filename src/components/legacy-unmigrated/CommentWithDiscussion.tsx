@@ -1,29 +1,25 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { FunctionComponent, useState } from "react";
-import { CommentsGroup, CommentWithDiscussion } from "./CommentSection";
-import CommentItem from "./Comment";
-import { Serialized } from "@/common";
-import { Comment } from "@prisma/client";
-import CommentForm from "./CommentForm";
-import { cn } from "@/lib/utils";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { ChevronUpDownIcon } from "@heroicons/react/24/solid";
+import {FunctionComponent, useState} from 'react'
+import {CommentsGroup, CommentWithDiscussion} from './CommentSection'
+import CommentItem from './Comment'
+import {Serialized} from '@/common'
+import {Comment} from '@prisma/client'
+import CommentForm from './CommentForm'
+import {cn} from '@/lib/utils'
+import {Collapsible, CollapsibleContent, CollapsibleTrigger} from '@/components/ui/collapsible'
+import {ChevronUpDownIcon} from '@heroicons/react/24/solid'
 
 interface Props {
-  comment: CommentsGroup;
-  projectUrl: string;
-  onDelete: (commentId: string) => Promise<void>;
-  onCommentCreated: (comment: Serialized<Comment>) => void;
-  onSave: (commentId: string, content: string) => Promise<void>;
-  c: Serialized<CommentWithDiscussion>;
-  index: number;
-  currentUserId?: string;
+  comment: CommentsGroup
+  projectUrl: string
+  onDelete: (commentId: string) => Promise<void>
+  onCommentCreated: (comment: Serialized<Comment>) => void
+  onSave: (commentId: string, content: string) => Promise<void>
+  c: Serialized<CommentWithDiscussion>
+  index: number
+  currentUserId?: string
 }
 
 const CommentEl: FunctionComponent<Props> = ({
@@ -36,24 +32,19 @@ const CommentEl: FunctionComponent<Props> = ({
   index,
   currentUserId,
 }) => {
-  const [answer, setAnswer] = useState(false);
+  const [answer, setAnswer] = useState(false)
 
   const handleCommentCreated = (comment: Serialized<Comment>) => {
-    onCommentCreated(comment);
-    setAnswer(false);
-  };
+    onCommentCreated(comment)
+    setAnswer(false)
+  }
   return (
-    <li
-      className={cn(
-        "relative flex flex-wrap gap-x-4 pr-4 sm:pr-8",
-        index > 0 && "mt-4",
-      )}
-    >
+    <li className={cn('relative flex flex-wrap gap-x-4 pr-4 sm:pr-8', index > 0 && 'mt-4')}>
       <div className="flex basis-full">
         <div
           className={cn(
-            index === comment.editingComments.length - 1 ? "h-2" : "-bottom-6",
-            "absolute left-0 top-0 flex w-6 justify-center max-sm:hidden",
+            index === comment.editingComments.length - 1 ? 'h-2' : '-bottom-6',
+            'absolute left-0 top-0 flex w-6 justify-center max-sm:hidden',
           )}
         >
           <div className="w-px bg-gray-400" />
@@ -74,17 +65,12 @@ const CommentEl: FunctionComponent<Props> = ({
           {c.replies?.length > 0 && (
             <Collapsible className="bg-gray-200">
               <CollapsibleTrigger className="flex flex-row items-center text-start gap-2 cursor-pointer p-2">
-                <ChevronUpDownIcon className="size-6 text-gray-500" />{" "}
-                <span className="text-sm text-gray-500">
-                  Antworten zu diesem Kommentar anzeigen
-                </span>
+                <ChevronUpDownIcon className="size-6 text-gray-500" />{' '}
+                <span className="text-sm text-gray-500">Antworten zu diesem Kommentar anzeigen</span>
               </CollapsibleTrigger>
               <CollapsibleContent>
                 {c.replies?.map((reply: Serialized<Comment>, index) => (
-                  <div
-                    key={reply.id}
-                    className={cn(index === 0 && "pt-4", "pr-6 pb-6")}
-                  >
+                  <div key={reply.id} className={cn(index === 0 && 'pt-4', 'pr-6 pb-6')}>
                     <CommentItem
                       onDelete={onDelete}
                       onSave={onSave}
@@ -112,27 +98,20 @@ const CommentEl: FunctionComponent<Props> = ({
         </div>
       </div>
     </li>
-  );
-};
+  )
+}
 
 const CommentWithDiscussionItem: FunctionComponent<{
-  comment: CommentsGroup;
-  projectUrl: string;
-  onDelete: (commentId: string) => Promise<void>;
-  onCommentCreated: (comment: Serialized<Comment>) => void;
-  onSave: (commentId: string, content: string) => Promise<void>;
-  currentUserId?: string;
-}> = ({
-  comment,
-  projectUrl,
-  onDelete,
-  onSave,
-  onCommentCreated,
-  currentUserId,
-}) => {
+  comment: CommentsGroup
+  projectUrl: string
+  onDelete: (commentId: string) => Promise<void>
+  onCommentCreated: (comment: Serialized<Comment>) => void
+  onSave: (commentId: string, content: string) => Promise<void>
+  currentUserId?: string
+}> = ({comment, projectUrl, onDelete, onSave, onCommentCreated, currentUserId}) => {
   const handleCommentCreated = (comment: Serialized<Comment>) => {
-    onCommentCreated(comment);
-  };
+    onCommentCreated(comment)
+  }
 
   return (
     <>
@@ -140,12 +119,7 @@ const CommentWithDiscussionItem: FunctionComponent<{
         {comment.closingComment && (
           <li className="relative flex flex-wrap gap-x-4 pr-4 sm:pr-8">
             <div className="flex basis-full">
-              <div
-                className={cn(
-                  "-bottom-16",
-                  "absolute left-0 top-0 flex w-6 justify-center max-sm:hidden",
-                )}
-              >
+              <div className={cn('-bottom-16', 'absolute left-0 top-0 flex w-6 justify-center max-sm:hidden')}>
                 <div className="w-px bg-gray-400" />
               </div>
               <div className="relative flex size-6 flex-none items-center justify-center max-sm:hidden">
@@ -153,10 +127,9 @@ const CommentWithDiscussionItem: FunctionComponent<{
               </div>
               <Collapsible>
                 <CollapsibleTrigger className="flex flex-row items-start gap-2 cursor-pointer">
-                  <ChevronUpDownIcon className="size-6 text-gray-500 max-sm:min-w-5" />{" "}
+                  <ChevronUpDownIcon className="size-6 text-gray-500 max-sm:min-w-5" />{' '}
                   <span className="text-sm text-gray-500 text-start">
-                    Der Kommentierungsverlauf wurde geschlossen. Klicken Sie
-                    hier, um den Verlauf anzuzeigen.
+                    Der Kommentierungsverlauf wurde geschlossen. Klicken Sie hier, um den Verlauf anzuzeigen.
                   </span>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="">
@@ -197,7 +170,7 @@ const CommentWithDiscussionItem: FunctionComponent<{
           ))}
       </ul>
     </>
-  );
-};
+  )
+}
 
-export default CommentWithDiscussionItem;
+export default CommentWithDiscussionItem

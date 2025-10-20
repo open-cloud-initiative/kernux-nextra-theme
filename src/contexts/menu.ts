@@ -1,19 +1,19 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import type { Dispatch, SetStateAction } from "react";
-import { createContext, useContext } from "react";
+import type {Dispatch, SetStateAction} from 'react'
+import {createContext, useContext} from 'react'
 
 interface Menu {
-  menu: boolean;
-  setMenu: Dispatch<SetStateAction<boolean>>;
+  menu: boolean
+  setMenu: Dispatch<SetStateAction<boolean>>
 }
 
 const MenuContext = createContext<Menu>({
   menu: false,
   setMenu: () => false,
-});
-MenuContext.displayName = "Menu";
-export const useMenu = () => useContext(MenuContext);
+})
+MenuContext.displayName = 'Menu'
+export const useMenu = () => useContext(MenuContext)
 
-export const MenuProvider = MenuContext.Provider;
+export const MenuProvider = MenuContext.Provider

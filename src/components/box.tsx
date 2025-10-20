@@ -1,11 +1,11 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import DOMPurify from "isomorphic-dompurify";
-import { H4, P } from "@open-cloud-initiative/kernux-react";
+import DOMPurify from 'isomorphic-dompurify'
+import {H4, P} from '@open-cloud-initiative/kernux-react'
 interface BoxProps {
-  title: string;
-  description: string;
+  title: string
+  description: string
 }
 export const Box = (props: BoxProps) => {
   return (
@@ -18,5 +18,5 @@ export const Box = (props: BoxProps) => {
         }}
       />
     </div>
-  );
-};
+  )
+}

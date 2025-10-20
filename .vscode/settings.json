@@ -1,10 +1,5 @@
 {
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "explicit"
-    },
-    "editor.formatOnSave": false,
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "eslint.format.enable": true,
-    "licenser.author": "Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH",
-    "licenser.license": "MIT",
+  "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
+  }
 }

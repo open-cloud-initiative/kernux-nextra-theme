@@ -1,78 +1,68 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { FunctionComponent, useMemo } from "react";
-import { UseFormReturn } from "react-hook-form";
-import {
-  Bar,
-  BarChart,
-  LabelList,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-} from "recharts";
-import { Props as LabelProps } from "recharts/types/component/Label";
-import { Answers, QuestionFS } from "../../../types/selfAssessment";
-import { combineAnswers } from "../../../utils/selfAssessmentHelper";
-import { ChartConfig, ChartContainer, ChartLegend } from "../../ui/chart";
+import {FunctionComponent, useMemo} from 'react'
+import {UseFormReturn} from 'react-hook-form'
+import {Bar, BarChart, LabelList, ResponsiveContainer, XAxis, YAxis} from 'recharts'
+import {Props as LabelProps} from 'recharts/types/component/Label'
+import {Answers, QuestionFS} from '../../../types/selfAssessment'
+import {combineAnswers} from '../../../utils/selfAssessmentHelper'
+import {ChartConfig, ChartContainer, ChartLegend} from '../../ui/chart'
 
 interface Props {
-  specs: {
-    specTitle: string;
-    specId: string;
-    specPreview: string;
-  }[];
-  questionFs: QuestionFS;
-  form: UseFormReturn<Answers, any, Answers>;
+  specs: Array<{
+    specTitle: string
+    specId: string
+    specPreview: string
+  }>
+  questionFs: QuestionFS
+  form: UseFormReturn<Answers, any, Answers>
 }
 
 const renderCustomizedLabel = (props: LabelProps) => {
-  const { x, y, width, height, value } = props;
+  const {x, y, width, height, value} = props
   if (!value || +value < 5) {
-    return null;
+    return null
   }
 
   return (
     <text
       x={(x as number) + (width as number) - 5}
       y={(y as number) + (height as number) - 5}
-      fill={"currentColor"}
+      fill={'currentColor'}
       stroke="transparent"
       textAnchor="end"
       fontSize={16}
     >
       {(+value).toFixed(2)}%
     </text>
-  );
-};
+  )
+}
 
-const ResultChart: FunctionComponent<Props> = ({ questionFs, specs, form }) => {
+const ResultChart: FunctionComponent<Props> = ({questionFs, specs, form}) => {
   const specMap = useMemo(() => {
     return specs.reduce(
       (acc, spec) => {
-        acc[spec.specId] = spec;
-        return acc;
+        acc[spec.specId] = spec
+        return acc
       },
-      {} as Record<
-        string,
-        { specTitle: string; specId: string; specPreview: string }
-      >,
-    );
-  }, [specs]);
+      {} as Record<string, {specTitle: string; specId: string; specPreview: string}>,
+    )
+  }, [specs])
 
-  const selectedSpecIds = form.watch("specifications", []) as string[];
+  const selectedSpecIds = form.watch('specifications', []) as string[]
 
   // calculate the result
   // get the specs and tell the amount of nulls, trues and falses
-  const values = form.watch();
+  const values = form.watch()
 
   const chartData = useMemo(() => {
     return combineAnswers(values, questionFs)
-      .questions.filter((q) => selectedSpecIds.includes(q.specId))
-      .map((e) => ({
+      .questions.filter(q => selectedSpecIds.includes(q.specId))
+      .map(e => ({
         specId: e.specId,
         ...e.elements
-          .map((e) => e.subQuestions)
+          .map(e => e.subQuestions)
           .flat()
           .reduce(
             (acc, el) => {
@@ -80,29 +70,29 @@ const ResultChart: FunctionComponent<Props> = ({ questionFs, specs, form }) => {
                 return {
                   ...acc,
                   null: acc.null + 1,
-                };
+                }
               }
 
-              if (el.answer === "yes") {
+              if (el.answer === 'yes') {
                 return {
                   ...acc,
                   true: acc.true + 1,
-                };
-              } else if (el.answer === "no") {
+                }
+              } else if (el.answer === 'no') {
                 return {
                   ...acc,
                   false: acc.false + 1,
-                };
-              } else if (el.answer === "open") {
+                }
+              } else if (el.answer === 'open') {
                 return {
                   ...acc,
                   open: acc.open + 1,
-                };
+                }
               } else {
                 return {
                   ...acc,
                   null: acc.null + 1,
-                };
+                }
               }
             },
             {
@@ -113,40 +103,40 @@ const ResultChart: FunctionComponent<Props> = ({ questionFs, specs, form }) => {
             },
           ),
       }))
-      .map((e) => ({
+      .map(e => ({
         ...e,
         truePercentage: (e.true / (e.true + e.false + e.open + e.null)) * 100,
         falsePercentage: (e.false / (e.true + e.false + e.open + e.null)) * 100,
         openPercentage: (e.open / (e.true + e.false + e.open + e.null)) * 100,
         nullPercentage: (e.null / (e.true + e.false + e.open + e.null)) * 100,
-      }));
-  }, [values, selectedSpecIds, questionFs]);
+      }))
+  }, [values, selectedSpecIds, questionFs])
 
   const chartConfig = {
     truePercentage: {
-      label: "Ja",
-      color: "var(--kern-color-feedback-success)",
+      label: 'Ja',
+      color: 'var(--kern-color-feedback-success)',
     },
     falsePercentage: {
-      label: "Nein",
-      color: "var(--kern-color-feedback-danger)",
+      label: 'Nein',
+      color: 'var(--kern-color-feedback-danger)',
     },
     openPercentage: {
-      label: "Offen",
-      color: "var(--kern-color-action-default)",
+      label: 'Offen',
+      color: 'var(--kern-color-action-default)',
     },
     nullPercentage: {
-      label: "Keine Antwort",
-      color: "var(--kern-color-feedback-info)",
+      label: 'Keine Antwort',
+      color: 'var(--kern-color-feedback-info)',
     },
-  } satisfies ChartConfig;
+  } satisfies ChartConfig
   return (
     <div className="mx-auto border p-xl pl-20 rounded-md">
       <ResponsiveContainer height={selectedSpecIds.length * 100}>
         <ChartContainer config={chartConfig}>
           <BarChart
             {...{
-              overflow: "visible",
+              overflow: 'visible',
             }}
             layout="vertical"
             accessibilityLayer
@@ -154,7 +144,7 @@ const ResultChart: FunctionComponent<Props> = ({ questionFs, specs, form }) => {
           >
             <ChartLegend
               verticalAlign="bottom"
-              content={({ payload }) => (
+              content={({payload}) => (
                 <div className="flex justify-center gap-6 mt-4">
                   {payload?.map((entry, index) => (
                     <div key={index} className="flex items-center gap-2">
@@ -166,7 +156,7 @@ const ResultChart: FunctionComponent<Props> = ({ questionFs, specs, form }) => {
                             // @ts-expect-error is defined!
                             chartConfig[entry.dataKey as string]?.color,
                           borderWidth: 1,
-                          borderStyle: "solid",
+                          borderStyle: 'solid',
                         }}
                       />
 
@@ -186,11 +176,7 @@ const ResultChart: FunctionComponent<Props> = ({ questionFs, specs, form }) => {
               stroke="var(--kern-color-feedback-danger)"
               fill="var(--kern-color-feedback-danger-background)"
             >
-              <LabelList
-                dataKey="falsePercentage"
-                content={renderCustomizedLabel}
-                position="insideRight"
-              />
+              <LabelList dataKey="falsePercentage" content={renderCustomizedLabel} position="insideRight" />
             </Bar>
             <Bar
               barSize={45}
@@ -201,11 +187,7 @@ const ResultChart: FunctionComponent<Props> = ({ questionFs, specs, form }) => {
               stroke="var(--kern-color-feedback-success)"
               fill="var(--kern-color-feedback-success-background)"
             >
-              <LabelList
-                dataKey="truePercentage"
-                content={renderCustomizedLabel}
-                position="insideRight"
-              />
+              <LabelList dataKey="truePercentage" content={renderCustomizedLabel} position="insideRight" />
             </Bar>
             <Bar
               name="Offen"
@@ -215,11 +197,7 @@ const ResultChart: FunctionComponent<Props> = ({ questionFs, specs, form }) => {
               stroke="var(--kern-color-action-default)"
               fill="var(--kern-color-action-state-indicator-tint-active)"
             >
-              <LabelList
-                dataKey="openPercentage"
-                content={renderCustomizedLabel}
-                position="insideRight"
-              />
+              <LabelList dataKey="openPercentage" content={renderCustomizedLabel} position="insideRight" />
             </Bar>
             <Bar
               name="Keine Antwort"
@@ -234,17 +212,17 @@ const ResultChart: FunctionComponent<Props> = ({ questionFs, specs, form }) => {
               type="category"
               fill="white"
               style={{
-                fontFamily: "var(--font-sans)",
+                fontFamily: 'var(--font-sans)',
                 fontSize: 14,
                 fontWeight: 500,
               }}
-              tickFormatter={(value) => specMap[value]?.specTitle}
+              tickFormatter={value => specMap[value]?.specTitle}
             />
           </BarChart>
         </ChartContainer>
       </ResponsiveContainer>
     </div>
-  );
-};
+  )
+}
 
-export default ResultChart;
+export default ResultChart

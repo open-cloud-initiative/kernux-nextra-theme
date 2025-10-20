@@ -1,14 +1,14 @@
-import { H3, P, Button } from "@open-cloud-initiative/kernux-react";
-import clsx from "clsx";
-import DOMPurify from "isomorphic-dompurify";
+import {H3, P, Button} from '@open-cloud-initiative/kernux-react'
+import clsx from 'clsx'
+import DOMPurify from 'isomorphic-dompurify'
 
 interface Props {
   items: Array<{
-    title: string;
-    description?: string;
-    buttonText?: string;
-    buttonLink?: string;
-  }>;
+    title: string
+    description?: string
+    buttonText?: string
+    buttonLink?: string
+  }>
 }
 
 export const Steps = (props: Props) => {
@@ -24,10 +24,7 @@ export const Steps = (props: Props) => {
                 className="absolute top-8 h-full left-7 -ml-px w-0.5 bg-gradient-to-b from-kern-action-default to-transparent"
               />
             ) : (
-              <div
-                aria-hidden="true"
-                className="absolute top-8 h-full left-7 -ml-px w-0.5 bg-kern-action-default"
-              />
+              <div aria-hidden="true" className="absolute top-8 h-full left-7 -ml-px w-0.5 bg-kern-action-default" />
             )
           }
 
@@ -43,7 +40,7 @@ export const Steps = (props: Props) => {
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(el.description),
                 }}
-                className={clsx("text-sm mt-2")}
+                className={clsx('text-sm mt-2')}
               />
             )}
             {el.buttonText && el.buttonLink && (
@@ -52,7 +49,7 @@ export const Steps = (props: Props) => {
                 variant="secondary"
                 onClick={() => {
                   if (el.buttonLink) {
-                    window.location.href = el.buttonLink;
+                    window.location.href = el.buttonLink
                   }
                 }}
               >
@@ -63,5 +60,5 @@ export const Steps = (props: Props) => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}

@@ -1,126 +1,123 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { SearchResult } from "@/types/search";
-import type { Document } from "flexsearch";
-import type { SearchData } from "nextra";
-import { useRouter } from "nextra/hooks";
-import type { ReactElement, ReactNode } from "react";
-import { useCallback, useState } from "react";
-import { HighlightMatches } from "./highlight-matches";
-import { Search } from "./search";
-import { DEFAULT_LOCALE } from "../default-theme-config";
+import {SearchResult} from '@/types/search'
+import type {Document} from 'flexsearch'
+import type {SearchData} from 'nextra'
+import {useRouter} from 'nextra/hooks'
+import type {ReactElement, ReactNode} from 'react'
+import {useCallback, useState} from 'react'
+import {HighlightMatches} from './highlight-matches'
+import {Search} from './search'
+import {DEFAULT_LOCALE} from '../default-theme-config'
 
 function splitAtLength(str: string, length: number): string[] {
-  if (length <= 0) return [];
+  if (length <= 0) return []
 
-  return str.match(new RegExp(".{1," + length + "}", "g"))?.map((s) => s) || [];
+  return str.match(new RegExp(`.{1,${length}}`, 'g'))?.map(s => s) || []
 }
 
 type SectionIndex = Document<
   {
-    id: string;
-    url: string;
-    title: string;
-    pageId: string;
-    content: string;
-    display?: string;
+    id: string
+    url: string
+    title: string
+    pageId: string
+    content: string
+    display?: string
   },
-  ["title", "content", "url", "display"]
->;
+  ['title', 'content', 'url', 'display']
+>
 
 type PageIndex = Document<
   {
-    id: number;
-    title: string;
-    content: string;
+    id: number
+    title: string
+    content: string
   },
-  ["title"]
->;
+  ['title']
+>
 
 type Result = {
-  _page_rk: number;
-  _section_rk: number;
-  route: string;
-  prefix: ReactNode;
-  children: ReactNode;
-  search: string;
-  content: string;
-};
+  _page_rk: number
+  _section_rk: number
+  route: string
+  prefix: ReactNode
+  children: ReactNode
+  search: string
+  content: string
+}
 
 // This can be global for better caching.
 const indexes: {
-  [locale: string]: [PageIndex, SectionIndex];
-} = {};
+  [locale: string]: [PageIndex, SectionIndex]
+} = {}
 
 // Caches promises that load the index
-const loadIndexesPromises = new Map<string, Promise<void>>();
+const loadIndexesPromises = new Map<string, Promise<void>>()
 const loadIndexes = (basePath: string, locale: string): Promise<void> => {
-  const key = basePath + "@" + locale;
+  const key = `${basePath}@${locale}`
   if (loadIndexesPromises.has(key)) {
-    return loadIndexesPromises.get(key)!;
+    return loadIndexesPromises.get(key)!
   }
-  const promise = loadIndexesImpl(basePath, locale);
-  loadIndexesPromises.set(key, promise);
-  return promise;
-};
+  const promise = loadIndexesImpl(basePath, locale)
+  loadIndexesPromises.set(key, promise)
+  return promise
+}
 
-const loadIndexesImpl = async (
-  basePath: string,
-  locale: string,
-): Promise<void> => {
+const loadIndexesImpl = async (basePath: string, locale: string): Promise<void> => {
   const [searchData, Document] = await Promise.all([
     fetch(`${basePath}/_next/static/chunks/nextra-data-en-US.json`).then(
-      (response) => response.json() as Promise<SearchData>,
+      response => response.json() as Promise<SearchData>,
     ),
-    import("flexsearch").then((mod) => mod.default.Document),
-  ]);
+    import('flexsearch').then(mod => mod.default.Document),
+  ])
 
   const pageIndex: PageIndex = new Document({
     cache: 100,
-    tokenize: "full",
+    tokenize: 'full',
     document: {
-      id: "id",
-      index: "content",
-      store: ["title"],
+      id: 'id',
+      index: 'content',
+      store: ['title'],
     },
     context: {
       resolution: 9,
       depth: 2,
       bidirectional: true,
     },
-  });
+  })
 
   const sectionIndex: SectionIndex = new Document({
     cache: 100,
-    tokenize: "full",
+    tokenize: 'full',
     document: {
-      id: "id",
-      index: "content",
-      tag: "pageId",
-      store: ["title", "content", "url", "display"],
+      id: 'id',
+      index: 'content',
+      tag: 'pageId',
+      store: ['title', 'content', 'url', 'display'],
     },
     context: {
       resolution: 9,
       depth: 2,
       bidirectional: true,
     },
-  });
+  })
 
-  let pageId = 0;
+  let pageId = 0
 
   for (const [route, structurizedData] of Object.entries(searchData)) {
-    let pageContent = "";
-    ++pageId;
+    let pageContent = ''
+    ++pageId
 
     for (const [key, content] of Object.entries(structurizedData.data)) {
-      const [headingId, headingValue] = key.split("#");
-      const url = route + (headingId ? "#" + headingId : "");
-      const title = headingValue || structurizedData.title;
+      const [headingId, headingValue] = key.split('#')
+      const url = route + (headingId ? `#${headingId}` : '')
+      const title = headingValue || structurizedData.title
       const paragraphs = content
-        .split("\n")
-        .map((p) => splitAtLength(p, 500).map((s) => s.trim()))
-        .flat();
+        .split('\n')
+        .map(p => splitAtLength(p, 500).map(s => s.trim()))
+        .flat()
 
       sectionIndex.add({
         id: url,
@@ -128,8 +125,8 @@ const loadIndexesImpl = async (
         title,
         pageId: `page_${pageId}`,
         content: title,
-        ...(paragraphs[0] && { display: paragraphs[0] }),
-      });
+        ...(paragraphs[0] && {display: paragraphs[0]}),
+      })
 
       for (let i = 0; i < paragraphs.length; i++) {
         sectionIndex.add({
@@ -138,54 +135,50 @@ const loadIndexesImpl = async (
           title,
           pageId: `page_${pageId}`,
           content: paragraphs[i],
-        });
+        })
       }
 
       // Add the page itself.
-      pageContent += ` ${title} ${content}`;
+      pageContent += ` ${title} ${content}`
     }
 
     pageIndex.add({
       id: pageId,
       title: structurizedData.title,
       content: pageContent,
-    });
+    })
   }
 
-  indexes[locale] = [pageIndex, sectionIndex];
-};
+  indexes[locale] = [pageIndex, sectionIndex]
+}
 
-export function Flexsearch({
-  className,
-}: {
-  className?: string;
-}): ReactElement {
-  const { locale = DEFAULT_LOCALE, basePath } = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [results, setResults] = useState<SearchResult[]>([]);
-  const [search, setSearch] = useState("");
+export function Flexsearch({className}: {className?: string}): ReactElement {
+  const {locale = DEFAULT_LOCALE, basePath} = useRouter()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [results, setResults] = useState<SearchResult[]>([])
+  const [search, setSearch] = useState('')
 
   const doSearch = (search: string) => {
     if (!search) {
-      setResults([]);
-      return;
+      setResults([])
+      return
     }
-    const [pageIndex, sectionIndex] = indexes[locale];
+    const [pageIndex, sectionIndex] = indexes[locale]
 
     // Show the results for the top 5 pages
     const pageResults =
       pageIndex.search<true>(search, 5, {
         enrich: true,
         suggest: true,
-      })[0]?.result || [];
+      })[0]?.result || []
 
-    const results: Result[] = [];
-    const pageTitleMatches: Record<number, number> = {};
+    const results: Result[] = []
+    const pageTitleMatches: Record<number, number> = {}
 
     for (let i = 0; i < pageResults.length; i++) {
-      const result = pageResults[i];
-      pageTitleMatches[i] = 0;
+      const result = pageResults[i]
+      pageTitleMatches[i] = 0
 
       // Show the top 3 results for each page
       const sectionResults =
@@ -193,25 +186,25 @@ export function Flexsearch({
           enrich: true,
           suggest: true,
           tag: `page_${result.id}`,
-        })[0]?.result || [];
+        })[0]?.result || []
 
-      const occurred: Record<string, boolean> = {};
+      const occurred: Record<string, boolean> = {}
 
       for (let j = 0; j < sectionResults.length; j++) {
-        const { doc } = sectionResults[j];
+        const {doc} = sectionResults[j]
 
-        const isMatchingTitle = doc.display !== undefined;
+        const isMatchingTitle = doc.display !== undefined
         if (isMatchingTitle) {
-          pageTitleMatches[i]++;
+          pageTitleMatches[i]++
         }
-        const { url, title } = doc;
-        const content = doc.display || doc.content;
-        if (occurred[url + "@" + content]) continue;
-        occurred[url + "@" + content] = true;
+        const {url, title} = doc
+        const content = doc.display || doc.content
+        if (occurred[`${url}@${content}`]) continue
+        occurred[`${url}@${content}`] = true
         results.push({
           _page_rk: i,
           _section_rk: j,
-          route: url.split("#")[0],
+          route: url.split('#')[0],
           prefix: null,
           content,
           search,
@@ -225,7 +218,7 @@ export function Flexsearch({
               )}
             </>
           ),
-        });
+        })
       }
     }
 
@@ -234,14 +227,14 @@ export function Flexsearch({
         .sort((a, b) => {
           // Sort by number of matches in the title.
           if (a._page_rk === b._page_rk) {
-            return a._section_rk - b._section_rk;
+            return a._section_rk - b._section_rk
           }
           if (pageTitleMatches[a._page_rk] !== pageTitleMatches[b._page_rk]) {
-            return pageTitleMatches[b._page_rk] - pageTitleMatches[a._page_rk];
+            return pageTitleMatches[b._page_rk] - pageTitleMatches[a._page_rk]
           }
-          return a._page_rk - b._page_rk;
+          return a._page_rk - b._page_rk
         })
-        .map((res) => ({
+        .map(res => ({
           id: `${res._page_rk}_${res._section_rk}`,
           route: res.route,
           prefix: res.prefix,
@@ -249,25 +242,25 @@ export function Flexsearch({
           content: res.content,
           search: res.search,
         })),
-    );
-  };
+    )
+  }
 
   const preload = useCallback(async () => {
-    if (indexes[locale]) return;
-    setLoading(true);
+    if (indexes[locale]) return
+    setLoading(true)
     try {
-      await loadIndexes(basePath, locale);
+      await loadIndexes(basePath, locale)
     } catch {
-      setError(true);
+      setError(true)
     }
-    setLoading(false);
-  }, [locale, basePath]);
+    setLoading(false)
+  }, [locale, basePath])
 
   const handleChange = (value: string) => {
-    setSearch(value);
-    if (loading) return;
-    doSearch(value);
-  };
+    setSearch(value)
+    if (loading) return
+    doSearch(value)
+  }
 
   return (
     <Search
@@ -279,5 +272,5 @@ export function Flexsearch({
       className={className}
       results={results}
     />
-  );
+  )
 }

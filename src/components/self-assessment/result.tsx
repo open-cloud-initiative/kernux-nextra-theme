@@ -1,21 +1,20 @@
 // Copyright 2025 Zentrum für Digitale Souveränität der Öffentlichen Verwaltung (ZenDiS) GmbH.
 // SPDX-License-Identifier: MIT
 
-import { Answers, DecisionEnum, QuestionFS } from "@/types/selfAssessment";
-import { FormProvider, UseFormReturn } from "react-hook-form";
-import { Button, Textarea } from "@open-cloud-initiative/kernux-react";
-import { Select } from "@open-cloud-initiative/kernux-react";
-import ResultChart from "./elements/result-chart";
+import {Answers, DecisionEnum, QuestionFS} from '@/types/selfAssessment'
+import {FormProvider, UseFormReturn} from 'react-hook-form'
+import {Button, Textarea, Select} from '@open-cloud-initiative/kernux-react'
+import ResultChart from './elements/result-chart'
 
 export interface SelfAssessmentRestrictionProps {
-  form: UseFormReturn<Answers, any, Answers>;
-  setActiveStepIndex: (index: number) => void;
-  specs: {
-    specTitle: string;
-    specId: string;
-    specPreview: string;
-  }[];
-  questionFs: QuestionFS;
+  form: UseFormReturn<Answers, any, Answers>
+  setActiveStepIndex: (index: number) => void
+  specs: Array<{
+    specTitle: string
+    specId: string
+    specPreview: string
+  }>
+  questionFs: QuestionFS
 }
 
 export default function SelfAssessmentResult({
@@ -35,10 +34,8 @@ export default function SelfAssessmentResult({
                 <Textarea
                   label="Entscheidung im Prüfkontext"
                   placeholder="Bitte geben Sie hier die Entscheidung der Prüfung an (Votum). Die Entscheidung kann aus maximal 500 Zeichen bestehen."
-                  {...form.register("examinationContext", { required: true })}
-                  errorMessage={
-                    form.formState.errors["examinationContext"]?.message
-                  }
+                  {...form.register('examinationContext', {required: true})}
+                  errorMessage={form.formState.errors['examinationContext']?.message}
                 />
               </div>
 
@@ -46,17 +43,14 @@ export default function SelfAssessmentResult({
                 <Select
                   label="Status der Architekturentscheidung"
                   placeholder="Antwort auswählen"
-                  options={Object.values(DecisionEnum).map((value) => ({
+                  options={Object.values(DecisionEnum).map(value => ({
                     value,
                     label: value,
                   }))}
-                  {...form.register("statusArchitecturalDecision", {
+                  {...form.register('statusArchitecturalDecision', {
                     required: true,
                   })}
-                  errorMessage={
-                    form.formState.errors["statusArchitecturalDecision"]
-                      ?.message
-                  }
+                  errorMessage={form.formState.errors['statusArchitecturalDecision']?.message}
                 />
               </div>
             </div>
@@ -64,9 +58,9 @@ export default function SelfAssessmentResult({
             <div className="mt-8 flex flex-row justify-end">
               <div>
                 <Button
-                  onClick={(ev) => {
-                    ev.preventDefault();
-                    setActiveStepIndex(5);
+                  onClick={ev => {
+                    ev.preventDefault()
+                    setActiveStepIndex(5)
                   }}
                   variant="primary"
                   type="submit"
@@ -79,5 +73,5 @@ export default function SelfAssessmentResult({
         </FormProvider>
       </div>
     </div>
-  );
+  )
 }
